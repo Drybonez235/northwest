@@ -1,11 +1,14 @@
 <?php
-// Load Composer dependencies
-if ( file_exists( $composer_autoload = __DIR__ . '/vendor/autoload.php' ) ) {
-    require_once $composer_autoload;
-}
+/**
+ * northwest Functions
+ */
 
-// Initialize Timber
-$timber = new Timber\Timber();
+// 1. BOOT TIMBER (The New Engine)
+if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
+    require_once( __DIR__ . '/vendor/autoload.php' );
+}
+Timber\Timber::init();
+Timber::$dirname = ['views'];
 
 function church_register_sermon_meta() {
     register_post_meta('page', 'sermon_title', [
