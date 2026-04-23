@@ -29,22 +29,20 @@ function church_register_sermon_meta() {
 }
 add_action('init', 'church_register_sermon_meta');
 
+function church_sermon_hero_shortcode() {
+    // This tells Timber to render the partial and return it as a string
+    return Timber::compile('partials/sermon-hero.twig', Timber::context());
+}
+add_shortcode('sermon_hero', 'church_sermon_hero_shortcode');
+
 function church_register_patterns() {
     register_block_pattern(
         'church/sermon-hero',
         array(
-            'title'       => __( 'Sermon Hero', 'church-one-body' ),
-            'description' => _x( 'A hero section that pulls from sermon meta.', 'Block pattern description', 'church-one-body' ),
-            'content' => '<div class="container mx-auto mt-8">
-        {% include "partials/sermon-hero.twig" %}
-        
-        {# The rest of your Gutenberg content #}
-        <article class="prose max-w-none mx-auto py-10">
-            {{ post.content }}
-        </article>
-    </div>',
+            'title'       => __( 'Sermon Hero Block', 'northwest' ),
             'categories'  => array( 'header' ),
+            'content'     => '[sermon_hero]',
         )
     );
 }
-add_action( 'init', 'church_register_patterns' );
+add_action('init', 'church_register_patterns');
