@@ -65,7 +65,7 @@ add_action('init', function() {
             'description' => __('A two-column services layout with a fading background image.'),
             'categories'  => array('church-layouts'),
             // This 'content' is the raw block markup that Gutenberg uses
-            'content'     => '',
+            'content'     => '[services_section]',
         )
     );
 });
