@@ -35,7 +35,14 @@ function church_register_patterns() {
         array(
             'title'       => __( 'Sermon Hero', 'church-one-body' ),
             'description' => _x( 'A hero section that pulls from sermon meta.', 'Block pattern description', 'church-one-body' ),
-            'content' => '<h1></h1>',
+            'content' => '<div class="container mx-auto mt-8">
+        {% include "partials/sermon-hero.twig" %}
+        
+        {# The rest of your Gutenberg content #}
+        <article class="prose max-w-none mx-auto py-10">
+            {{ post.content }}
+        </article>
+    </div>',
             'categories'  => array( 'header' ),
         )
     );
