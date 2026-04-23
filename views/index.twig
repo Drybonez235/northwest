@@ -1,35 +1,11 @@
-{% extends "layout.twig" %}
-
-{% block content %}
-<section class="relative bg-slate-900 py-24 px-6 overflow-hidden">
-    {# Main Hero Content pulled from Meta #}
-    <div class="container mx-auto relative z-10">
-        <header class="max-w-3xl">
-            <span class="text-blue-400 font-bold tracking-widest uppercase text-sm">Latest Sermon</span>
-            
-            {# Pulling the meta data using Timber's .meta() method #}
-            <h1 class="text-5xl md:text-7xl font-black text-white mt-4 mb-6 leading-tight">
-                {{ post.meta('sermon_title') ?: post.title }}
-            </h1>
-            
-            <p class="text-xl text-slate-300 font-medium">
-                With <span class="text-white underline decoration-blue-500">{{ post.meta('preacher_name') ?: 'Guest Speaker' }}</span>
-            </p>
-        </header>
-
-        <div class="mt-10">
-            <a href="#watch" class="inline-block bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-8 rounded-full transition-all transform hover:scale-105">
-                Watch One Body Message
-            </a>
-        </div>
+{# No layouts yet, just raw HTML to test #}
+<div style="background: #f0f0f0; padding: 50px; text-align: center; font-family: sans-serif;">
+    <h1 style="color: #2563eb;">Timber is officially connected!</h1>
+    <p>Site Name: {{ site.name }}</p>
+    
+    <div style="margin-top: 20px; border: 2px dashed #ccc; padding: 20px;">
+        <h2>Custom Field Test:</h2>
+        <p>Sermon Title: <strong>{{ post.meta('sermon_title') }}</strong></p>
+        <p>Preacher: <strong>{{ post.meta('preacher_name') }}</strong></p>
     </div>
-
-    {# Decorative background element #}
-    <div class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
-</section>
-
-{# The "Body" using the Typography plugin #}
-<article class="container mx-auto px-6 py-16 prose prose-slate lg:prose-xl">
-    {{ post.content }}
-</article>
-{% endblock %}
+</div>

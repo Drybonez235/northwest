@@ -10,6 +10,11 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 Timber\Timber::init();
 Timber::$dirname = ['views'];
 
+add_action( 'wp_enqueue_scripts', function() {
+    // Make sure this path matches where your Tailwind CLI outputs the file
+    wp_enqueue_style( 'theme-styles', get_template_directory_uri() . '/dist/style.css', [], '1.0' );
+});
+
 function church_register_sermon_meta() {
     register_post_meta('page', 'sermon_title', [
         'show_in_rest' => true,
