@@ -6,10 +6,9 @@
     {{ function('wp_head') }}
 </head>
 <body class="bg-slate-50 text-black">
-    {% include "sections/header.twig" %}
+    {% include "partials/header.twig" %}
         {% block content %}
             {# Content from individual pages goes here #}
         {% endblock %}
-    {% include "sections/footer.twig" %}
 </body>
 </html>
