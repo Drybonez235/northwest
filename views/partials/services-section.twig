@@ -1,0 +1,71 @@
+{# 
+  Services Section Partial
+  Uses: Tailwind CSS, Timber/Twig
+#}
+
+<section class="relative bg-white overflow-hidden">
+  <div class="flex flex-col lg:flex-row min-h-[600px]">
+    
+    {# Left Column: Content #}
+    <div class="w-full lg:w-1/2 flex items-center px-6 py-16 lg:px-16 lg:py-24 z-10 bg-white">
+      <div class="max-w-xl">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+          {{ fields.servicesTitle }}
+        </h2>
+        <p class="text-lg text-gray-600 mb-10">
+          {{ fields.servicesDescription }}
+        </p>
+
+        {# Services List #}
+        <div class="space-y-8">
+          {% set services = [
+            { 'title': fields.sundaySchoolTitle, 'time': fields.sundaySchoolTime, 'desc': fields.sundaySchoolDescription },
+            { 'title': fields.sundayWorshipTitle, 'time': fields.sundayWorshipTime, 'desc': fields.sundayWorshipDescription },
+            { 'title': fields.smallGroupTitle, 'time': fields.smallGroupTime, 'desc': fields.smallGroupDescription }
+          ] %}
+
+          {% for service in services %}
+            {% if service.title %}
+              <div class="flex gap-4">
+                {# Bullet Icon #}
+                <div class="mt-1.5 h-2 w-2 rounded-full bg-blue-600 shrink-0"></div>
+                <div>
+                  <h3 class="font-bold text-xl text-gray-900">
+                    {{ service.title }} 
+                    <span class="text-blue-600 font-medium ml-2">— {{ service.time }}</span>
+                  </h3>
+                  <p class="text-gray-600 mt-1 leading-relaxed">
+                    {{ service.desc }}
+                  </p>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        {# Call to Action #}
+        {% if fields.servicesCTALink %}
+          <div class="mt-12">
+            <a href="{{ fields.servicesCTALink }}" 
+               class="inline-block px-8 py-4 bg-blue-700 text-white font-bold rounded-lg hover:bg-blue-800 transition-colors shadow-lg">
+              {{ fields.servicesCTAButtonText | default('Learn More') }}
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {# Right Column: Image with Gradient Bleed #}
+    <div class="relative w-full lg:w-1/2 h-64 lg:h-auto">
+      {# The Background Image #}
+      <div class="absolute inset-0 bg-cover bg-center" 
+           style="background-image: url('{{ Image(fields.servicesBackgroundImage).src }}');">
+      </div>
+      
+      {# The Gradient Fade (Fades from white to transparent, right to left) #}
+      {# On mobile, fades from top to bottom #}
+      <div class="absolute inset-0 bg-gradient-to-b lg:bg-gradient-to-r from-white via-white/40 to-transparent pointer-events-none"></div>
+    </div>
+
+  </div>
+</section>
