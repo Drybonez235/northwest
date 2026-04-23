@@ -38,31 +38,20 @@ add_action('init', 'church_register_patterns');
  * Usage: [services_section]
  */
 add_shortcode('services_section', function() {
-    $context = Timber::context();
-    
-    // If you want to pull data from a specific Options Page or Post ID, 
-    // you would pass that ID to get_fields(). 
-    // Defaulting to the current post/page.
-    $context['fields'] = get_fields(); 
 
     // We return the render as a string for the shortcode
-    return Timber::compile('partials/services-section.twig', $context);
+    return Timber::compile('partials/services-section.twig', Timber::context());
 });
 
 /**
  * Register the Services Section as a Block Pattern
  */
 add_action('init', function() {
-    register_block_pattern_category(
-        'church-layouts',
-        array( 'label' => __('Church Layouts', 'textdomain') )
-    );
 
     register_block_pattern(
         'my-theme/services-section',
         array(
             'title'       => __('Services with Image Bleed', 'textdomain'),
-            'description' => __('A two-column services layout with a fading background image.'),
             'categories'  => array('church-layouts'),
             // This 'content' is the raw block markup that Gutenberg uses
             'content'     => '[services_section]',
