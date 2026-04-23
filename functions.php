@@ -23,3 +23,16 @@ function church_register_sermon_meta() {
     ]);
 }
 add_action('init', 'church_register_sermon_meta');
+
+function church_register_patterns() {
+    register_block_pattern(
+        'church/sermon-hero',
+        array(
+            'title'       => __( 'Sermon Hero', 'church-one-body' ),
+            'description' => _x( 'A hero section that pulls from sermon meta.', 'Block pattern description', 'church-one-body' ),
+            'content' => '<h1></h1>',
+            'categories'  => array( 'header' ),
+        )
+    );
+}
+add_action( 'init', 'church_register_patterns' );
