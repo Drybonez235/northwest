@@ -1,3 +1,4 @@
+{# views/index.twig #}
 {# No layouts yet, just raw HTML to test #}
 <div style="background: #f0f0f0; padding: 50px; text-align: center; font-family: sans-serif;">
     <h1 style="color: #2563eb;">Timber is officially connected!</h1>
@@ -9,3 +10,16 @@
         <p>Preacher: <strong>{{ post.meta('preacher_name') }}</strong></p>
     </div>
 </div>
+{# views/index.twig #}
+
+
+{% block content %}
+    <div class="container mx-auto mt-8">
+        {% include "partials/sermon-hero.twig" %}
+        
+        {# The rest of your Gutenberg content #}
+        <article class="prose max-w-none mx-auto py-10">
+            {{ post.content }}
+        </article>
+    </div>
+{% endblock %}

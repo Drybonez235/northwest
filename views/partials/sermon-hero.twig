@@ -1,0 +1,34 @@
+{# views/partials/sermon-hero.twig #}
+<section class="relative overflow-hidden bg-slate-900 py-16 px-6 sm:py-24 lg:px-8 rounded-3xl shadow-2xl mb-12">
+    
+    {# Optional: Simple Decorative Background Gradient #}
+    <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-blue-600/20 blur-3xl"></div>
+    <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-indigo-500/10 blur-3xl"></div>
+
+    <div class="relative mx-auto max-w-2xl text-center">
+        <span class="inline-block px-3 py-1 text-xs font-semibold tracking-widest text-blue-400 uppercase border border-blue-400/30 rounded-full mb-6">
+            Latest Message
+        </span>
+        
+        <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-6xl italic">
+            {{ post.meta('sermon_title') ?: 'Current Sermon Series' }}
+        </h1>
+        
+        <div class="mt-6 flex items-center justify-center gap-x-4">
+            <div class="h-px w-8 bg-slate-700"></div>
+            <p class="text-lg leading-8 text-slate-300 font-medium">
+                {{ post.meta('preacher_name') ?: 'Northwest Church' }}
+            </p>
+            <div class="h-px w-8 bg-slate-700"></div>
+        </div>
+
+        {# Placeholder for a 'Watch Now' button if you add a Video URL later #}
+        {% if post.meta('sermon_video_url') %}
+            <div class="mt-10">
+                <a href="{{ post.meta('sermon_video_url') }}" class="rounded-md bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all">
+                    Watch Full Message
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</section>
