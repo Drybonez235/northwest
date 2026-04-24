@@ -21,18 +21,6 @@ function church_sermon_hero_shortcode() {
 }
 add_shortcode('sermon_hero', 'church_sermon_hero_shortcode');
 
-function church_register_patterns() {
-    register_block_pattern(
-        'church/sermon-hero',
-        array(
-            'title'       => __( 'Sermon Hero Block', 'northwest' ),
-            'categories'  => array( 'header' ),
-            'content'     => '[sermon_hero]',
-        )
-    );
-}
-add_action('init', 'church_register_patterns');
-
 /**
  * Shortcode to render the Services Section
  * Usage: [services_section]
@@ -43,13 +31,16 @@ add_shortcode('services_section', function() {
     return Timber::compile('partials/services-section.twig', Timber::context());
 });
 
-/**
- * Register the Services Section as a Block Pattern
- */
-add_action('init', function() {
 
+function church_register_patterns() {
     register_block_pattern(
-        'my-theme/services-section',
+        'church/sermon-hero',
+        array(
+            'title'       => __( 'Sermon Hero Block', 'northwest' ),
+            'categories'  => array( 'header' ),
+            'content'     => '[sermon_hero]',
+        ),
+         'my-theme/services-section',
         array(
             'title'       => __('Services with Image Bleed', 'textdomain'),
             'categories'  => array('church-layouts'),
@@ -57,4 +48,7 @@ add_action('init', function() {
             'content'     => '[services_section]',
         )
     );
-});
+    
+}
+add_action('init', 'church_register_patterns');
+
