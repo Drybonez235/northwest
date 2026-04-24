@@ -68,10 +68,8 @@
 
     {# Right Column: Image with Gradient Bleed #}
     <div class="relative w-full lg:w-1/2 h-64 lg:h-auto">
-      {# Using Timber's Image helper with the meta ID or URL #}
-      {% set bg_image = Image(post.meta('servicesBackgroundImage')) %}
       <div class="absolute inset-0 bg-cover bg-center" 
-           style="background-image: url('{{ bg_image.src }}');">
+           style="background-image: url('{{ post.meta('servicesBackgroundImage')}}');">
       </div>
       
       {# Gradient Bleed #}
