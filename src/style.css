@@ -1,1 +1,69 @@
 @import "tailwindcss";
+
+@theme {
+  /* --- Primary Brand (Northwest Crimson) --- */
+  --color-primary-50: hsl(350, 80%, 98%);
+  --color-primary-100: hsl(350, 75%, 94%);
+  --color-primary-200: hsl(350, 70%, 88%);
+  --color-primary-300: hsl(350, 65%, 75%);
+  --color-primary-400: hsl(350, 60%, 60%);
+  --color-primary-500: hsl(350, 75%, 45%); /* Logo Base */
+  --color-primary-600: hsl(350, 80%, 35%); /* Logo Darker */
+  --color-primary-700: hsl(350, 85%, 28%);
+  --color-primary-800: hsl(350, 90%, 20%);
+  --color-primary-900: hsl(350, 95%, 12%);
+  --color-primary-950: hsl(350, 100%, 7%);
+
+  /* --- Neutrals (Deep Slate) --- */
+  --color-neutral-50: hsl(210, 20%, 98%);
+  --color-neutral-100: hsl(210, 15%, 95%);
+  --color-neutral-200: hsl(210, 12%, 90%);
+  --color-neutral-300: hsl(210, 10%, 82%);
+  --color-neutral-400: hsl(210, 8%, 70%);
+  --color-neutral-500: hsl(210, 7%, 55%);
+  --color-neutral-600: hsl(210, 7%, 40%);
+  --color-neutral-700: hsl(210, 10%, 25%);
+  --color-neutral-800: hsl(210, 15%, 15%);
+  --color-neutral-900: hsl(210, 20%, 10%);
+  --color-neutral-950: hsl(210, 25%, 4%);
+
+  /* --- Accent: Gold (Secondary/Action) --- */
+  --color-gold-50: hsl(45, 100%, 96%);
+  --color-gold-500: hsl(45, 85%, 50%);
+  --color-gold-700: hsl(45, 90%, 35%);
+
+  /* --- Semantic Accents --- */
+  --color-success-500: hsl(150, 60%, 40%);
+  --color-warning-500: hsl(35, 90%, 55%);
+  --color-danger-500: hsl(0, 75%, 50%);
+
+  /* --- Spacing & Radii Adjustments --- */
+  --radius-church: 0.5rem; /* Standardizing rounded-church */
+}
+
+@theme {
+  /* --- Typography Scale --- */
+  /* Using a modern sans-serif stack as the default */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Crimson Pro", ui-serif, Georgia, serif;
+  --font-display: "Montserrat", var(--font-sans); /* For the 'NW' bold look */
+
+  /* Standardizing Font Sizes with v4.1 precision */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+
+  /* --- Spacing Scale --- */
+  /* We maintain the default 4px increment but add a 'Church' container max-width */
+  --spacing-18: 4.5rem;
+  --spacing-22: 5.5rem;
+  
+  /* Custom Container Widths */
+  --container-3xl: 80rem; 
+  --container-4xl: 90rem;
+}

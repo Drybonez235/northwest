@@ -5,17 +5,17 @@
         <div class="site-logo">
             {% if custom_logo_url %}
                 <a href="{{ site.url }}">
-                    <img src="{{ custom_logo_url }}" alt="Name of church" class="h-12 w-auto">
+                    <img src="{{ custom_logo_url }}" alt="{{ theme.name }}" class="h-12 w-auto">
                 </a>
             {% else %}
                 <h1 class="text-xl/7 font-bold">
-                    <a href="{{ site.url }}">Name of church</a>
+                    <a href="{{ site.url }}">{{ theme.name }}</a>
                 </h1>
             {% endif %}
         </div>
 
         <h2 class="text-lg/6 font-semibold text-gray-800">
-           Name of church
+            {{ theme.name }}
         </h2>
     </div>
 
