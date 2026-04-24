@@ -1,34 +1,82 @@
-{# views/partials/sermon-hero.twig #}
-<section class="relative overflow-hidden bg-slate-900 py-16 px-6 sm:py-24 lg:px-8 rounded-3xl shadow-2xl mb-12">
-    
-    {# Optional: Simple Decorative Background Gradient #}
-    <div class="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-blue-600/20 blur-3xl"></div>
-    <div class="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-indigo-500/10 blur-3xl"></div>
+{# 
+  Services Section Partial
+  Refactored to use post.meta() for data retrieval
+#}
 
-    <div class="relative mx-auto max-w-2xl text-center">
-        <span class="inline-block px-3 py-1 text-xs font-semibold tracking-widest text-blue-400 uppercase border border-blue-400/30 rounded-full mb-6">
-            Latest Message
-        </span>
-        
-        <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-6xl italic">
-            {{ post.meta('sermon_title') ?: 'Current Sermon Series' }}
-        </h1>
-        
-        <div class="mt-6 flex items-center justify-center gap-x-4">
-            <div class="h-px w-8 bg-slate-700"></div>
-            <p class="text-lg leading-8 text-slate-300 font-medium">
-                {{ post.meta('preacher_name') ?: 'Northwest Church' }}
-            </p>
-            <div class="h-px w-8 bg-slate-700"></div>
+<section class="relative bg-white overflow-hidden">
+  <div class="flex flex-col lg:flex-row min-h-[600px]">
+    
+    {# Left Column: Content #}
+    <div class="w-full lg:w-1/2 flex items-center px-6 py-16 lg:px-16 lg:py-24 z-10 bg-white">
+      <div class="max-w-xl">
+        <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+          {{ post.meta('servicesTitle') ?: 'Join Us for Worship' }}
+        </h2>
+        <p class="text-lg text-gray-600 mb-10">
+          {{ post.meta('servicesDescription') }}
+        </p>
+
+        {# Services List #}
+        <div class="space-y-8">
+          {% set services = [
+            { 
+                'title': post.meta('sundaySchoolTitle'), 
+                'time': post.meta('sundaySchoolTime'), 
+                'desc': post.meta('sundaySchoolDescription') 
+            },
+            { 
+                'title': post.meta('sundayWorshipTitle'), 
+                'time': post.meta('sundayWorshipTime'), 
+                'desc': post.meta('sundayWorshipDescription') 
+            },
+            { 
+                'title': post.meta('smallGroupTitle'), 
+                'time': post.meta('smallGroupTime'), 
+                'desc': post.meta('smallGroupDescription') 
+            }
+          ] %}
+
+          {% for service in services %}
+            {% if service.title %}
+              <div class="flex gap-4">
+                <div class="mt-1.5 h-2 w-2 rounded-full bg-blue-600 shrink-0"></div>
+                <div>
+                  <h3 class="font-bold text-xl text-gray-900">
+                    {{ service.title }} 
+                    <span class="text-blue-600 font-medium ml-2">— {{ service.time }}</span>
+                  </h3>
+                  <p class="text-gray-600 mt-1 leading-relaxed">
+                    {{ service.desc }}
+                  </p>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
         </div>
 
-        {# Placeholder for a 'Watch Now' button if you add a Video URL later #}
-        {% if post.meta('sermon_video_url') %}
-            <div class="mt-10">
-                <a href="{{ post.meta('sermon_video_url') }}" class="rounded-md bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all">
-                    Watch Full Message
-                </a>
-            </div>
+        {# Call to Action #}
+        {% if post.meta('servicesCTALink') %}
+          <div class="mt-12">
+            <a href="{{ post.meta('servicesCTALink') }}" 
+               class="inline-block px-8 py-4 bg-blue-700 text-white font-bold rounded-lg hover:bg-blue-800 transition-colors shadow-lg">
+              {{ post.meta('servicesCTAButtonText') ?: 'Plan Your Visit' }}
+            </a>
+          </div>
         {% endif %}
+      </div>
     </div>
+
+    {# Right Column: Image with Gradient Bleed #}
+    <div class="relative w-full lg:w-1/2 h-64 lg:h-auto">
+      {# Using Timber's Image helper with the meta ID or URL #}
+      {% set bg_image = Image(post.meta('servicesBackgroundImage')) %}
+      <div class="absolute inset-0 bg-cover bg-center" 
+           style="background-image: url('{{ bg_image.src }}');">
+      </div>
+      
+      {# Gradient Bleed #}
+      <div class="absolute inset-0 bg-gradient-to-b lg:bg-gradient-to-r from-white via-white/40 to-transparent pointer-events-none"></div>
+    </div>
+
+  </div>
 </section>
