@@ -188,65 +188,67 @@ add_action('add_meta_boxes', 'nw_add_ministry_meta_boxes');
  * Render Meta Box Fields
  */
 function nw_render_ministry_meta_box($post) {
-    // Add nonce for security
     wp_nonce_field('nw_ministry_meta_nonce', 'nw_ministry_nonce');
 
-    // Retrieve existing values
     $values = [
-        'caption'        => get_post_meta($post->ID, '_ministry_caption', true),
-        'leader_name'    => get_post_meta($post->ID, '_ministry_leader_name', true),
-        'leader_photo'   => get_post_meta($post->ID, '_ministry_leader_photo', true),
-        'hero_image'     => get_post_meta($post->ID, '_ministry_hero_image', true),
-        'hero_desc'      => get_post_meta($post->ID, '_ministry_hero_desc', true),
-        'description'    => get_post_meta($post->ID, '_ministry_description', true),
-        'involved_head'  => get_post_meta($post->ID, '_ministry_involved_head', true),
-        'involved_text'  => get_post_meta($post->ID, '_ministry_involved_text', true),
+        'caption'          => get_post_meta($post->ID, '_ministry_caption', true),
+        'leader_name'      => get_post_meta($post->ID, '_ministry_leader_name', true),
+        'leader_photo'     => get_post_meta($post->ID, '_ministry_leader_photo', true),
+        'hero_image'       => get_post_meta($post->ID, '_ministry_hero_image', true),
+        'hero_desc'        => get_post_meta($post->ID, '_ministry_hero_desc', true),
+        'description'      => get_post_meta($post->ID, '_ministry_description', true),
+        'involved_head'    => get_post_meta($post->ID, '_ministry_involved_head', true),
+        'involved_text'    => get_post_meta($post->ID, '_ministry_involved_text', true),
+        // New Fields
+        'title_name'       => get_post_meta($post->ID, '_ministry_title_name', true),
+        'cta_text'         => get_post_meta($post->ID, '_ministry_cta_text', true),
+        'cta_url'          => get_post_meta($post->ID, '_ministry_cta_url', true),
+        'en_url'           => get_post_meta($post->ID, '_ministry_en_url', true),
+        'es_url'           => get_post_meta($post->ID, '_ministry_es_url', true),
+        'en_es'            => get_post_meta($post->ID, '_ministry_en_es', true),
     ];
 
-    // Simple styling for the admin panel
-    echo '<style>.nw-admin-field { margin-bottom: 20px; } .nw-admin-field label { display: block; font-weight: bold; margin-bottom: 5px; } .nw-admin-field input, .nw-admin-field textarea { width: 100%; }</style>';
-
-    // Fields
+    echo '<style>.nw-admin-field { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; } .nw-admin-field label { display: block; font-weight: bold; margin-bottom: 5px; } .nw-admin-field input, .nw-admin-field textarea, .nw-admin-field select { width: 100%; }</style>';
     ?>
+
     <div class="nw-admin-field">
-        <label>Ministry Caption (Short summary)</label>
-        <input type="text" name="ministry_caption" value="<?php echo esc_attr($values['caption']); ?>">
+        <label>Language Setting</label>
+        <select name="ministry_en_es">
+            <option value="EN" <?php selected($values['en_es'], 'EN'); ?>>English</option>
+            <option value="ES" <?php selected($values['en_es'], 'ES'); ?>>Spanish</option>
+        </select>
     </div>
+
+    <div class="nw-admin-field">
+        <label>Title Name (Specific display title)</label>
+        <input type="text" name="ministry_title_name" value="<?php echo esc_attr($values['title_name']); ?>">
+    </div>
+
+    <div class="nw-admin-field"><label>Ministry Caption</label><input type="text" name="ministry_caption" value="<?php echo esc_attr($values['caption']); ?>"></div>
+    <div class="nw-admin-field"><label>Ministry Leader Name</label><input type="text" name="ministry_leader_name" value="<?php echo esc_attr($values['leader_name']); ?>"></div>
+    <div class="nw-admin-field"><label>Leader Photo URL</label><input type="url" name="ministry_leader_photo" value="<?php echo esc_url($values['leader_photo']); ?>"></div>
     
-    <div class="nw-admin-field">
-        <label>Ministry Leader Name</label>
-        <input type="text" name="ministry_leader_name" value="<?php echo esc_attr($values['leader_name']); ?>">
+    <div class="nw-admin-field" style="background: #f9f9f9; padding: 10px;">
+        <label><strong>Call to Action Button</strong></label>
+        <label style="font-weight:normal;">Button Text</label>
+        <input type="text" name="ministry_cta_text" value="<?php echo esc_attr($values['cta_text']); ?>" placeholder="e.g. Register Now">
+        <label style="font-weight:normal; margin-top:10px;">Button URL</label>
+        <input type="url" name="ministry_cta_url" value="<?php echo esc_url($values['cta_url']); ?>">
     </div>
 
     <div class="nw-admin-field">
-        <label>Leader Photo URL</label>
-        <input type="url" name="ministry_leader_photo" value="<?php echo esc_url($values['leader_photo']); ?>">
+        <label>Language Switcher Links</label>
+        <label style="font-weight:normal;">English Version URL</label>
+        <input type="url" name="ministry_en_url" value="<?php echo esc_url($values['en_url']); ?>">
+        <label style="font-weight:normal; margin-top:10px;">Spanish Version URL</label>
+        <input type="url" name="ministry_es_url" value="<?php echo esc_url($values['es_url']); ?>">
     </div>
 
-    <div class="nw-admin-field">
-        <label>Hero Image URL</label>
-        <input type="url" name="ministry_hero_image" value="<?php echo esc_url($values['hero_image']); ?>">
-    </div>
-
-    <div class="nw-admin-field">
-        <label>Hero Image Description</label>
-        <textarea name="ministry_hero_desc" rows="2"><?php echo esc_textarea($values['hero_desc']); ?></textarea>
-    </div>
-
-    <div class="nw-admin-field">
-        <label>Full Ministry Description</label>
-        <textarea name="ministry_description" rows="5"><?php echo esc_textarea($values['description']); ?></textarea>
-    </div>
-
-    <div class="nw-admin-field">
-        <label>How to be involved (Heading)</label>
-        <input type="text" name="ministry_involved_head" value="<?php echo esc_attr($values['involved_head']); ?>">
-    </div>
-
-    <div class="nw-admin-field">
-        <label>How to be involved (Text/Instructions)</label>
-        <textarea name="ministry_involved_text" rows="4"><?php echo esc_textarea($values['involved_text']); ?></textarea>
-    </div>
+    <div class="nw-admin-field"><label>Hero Image URL</label><input type="url" name="ministry_hero_image" value="<?php echo esc_url($values['hero_image']); ?>"></div>
+    <div class="nw-admin-field"><label>Hero Image Description</label><textarea name="ministry_hero_desc" rows="2"><?php echo esc_textarea($values['hero_desc']); ?></textarea></div>
+    <div class="nw-admin-field"><label>Full Ministry Description</label><textarea name="ministry_description" rows="5"><?php echo esc_textarea($values['description']); ?></textarea></div>
+    <div class="nw-admin-field"><label>How to be involved (Heading)</label><input type="text" name="ministry_involved_head" value="<?php echo esc_attr($values['involved_head']); ?>"></div>
+    <div class="nw-admin-field"><label>How to be involved (Text)</label><textarea name="ministry_involved_text" rows="4"><?php echo esc_textarea($values['involved_text']); ?></textarea></div>
     <?php
 }
 
@@ -267,6 +269,13 @@ function nw_save_ministry_meta($post_id) {
         '_ministry_description'   => 'ministry_description',
         '_ministry_involved_head' => 'ministry_involved_head',
         '_ministry_involved_text' => 'ministry_involved_text',
+        // Save New Fields
+        '_ministry_title_name'    => 'ministry_title_name',
+        '_ministry_cta_text'      => 'ministry_cta_text',
+        '_ministry_cta_url'       => 'ministry_cta_url',
+        '_ministry_en_url'        => 'ministry_en_url',
+        '_ministry_es_url'        => 'ministry_es_url',
+        '_ministry_en_es'         => 'ministry_en_es',
     ];
 
     foreach ($fields as $key => $post_key) {
