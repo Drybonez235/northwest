@@ -4,100 +4,85 @@
 {% block content %}
 <article class="min-h-dvh bg-neutral-50 font-sans">
   
-  {# --- Hero Section --- #}
-  <header class="relative h-80 md:h-[30rem] overflow-hidden bg-neutral-900">
-    {% if post.meta('_ministry_hero_image') %}
-      <img 
-        src="{{ post.meta('_ministry_hero_image') }}" 
-        alt="{{ post.meta('_ministry_hero_desc') }}" 
-        class="size-full object-cover opacity-60"
-      >
-    {% endif %}
-    
-    <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-      <h1 class="font-display text-4xl md:text-6xl text-white text-shadow-lg uppercase tracking-tight">
-        {{ post.title }}
-      </h1>
-      {% if post.meta('_ministry_caption') %}
-        <p class="mt-4 max-w-2xl text-lg/7 md:text-xl/8 text-white/90 font-medium">
-          {{ post.meta('_ministry_caption') }}
-        </p>
-      {% endif %}
-    </div>
-  </header>
-
-  {# --- Main Content Body --- #}
-  <div class="mx-auto max-w-container-3xl px-4 py-12 md:py-18 lg:py-22">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-18">
+  {# --- Section 1: Intro & Leader (Two Columns) --- #}
+  <section class="mx-auto max-w-container-3xl px-4 py-12 md:py-18 lg:py-22">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-18 items-center">
       
-      {# --- Left Column: Description & Involvement --- #}
-      <main class="lg:col-span-8 space-y-12">
+      {# Left Column: Title, Subheading, Description #}
+      <div class="lg:col-span-8 order-2 lg:order-1">
+        <h1 class="font-display text-4xl md:text-6xl text-primary-600 uppercase tracking-tight mb-4">
+          {{ post.title }}
+        </h1>
         
-        <section>
-          <h2 class="font-display text-2xl text-primary-600 mb-6 uppercase tracking-wide">About the Ministry</h2>
-          <div class="text-neutral-700 text-base/7 md:text-lg/8 whitespace-pre-wrap">
-            {{ post.meta('_ministry_description') }}
-          </div>
-        </section>
-
-        {% if post.meta('_ministry_involved_text') %}
-        <section class="bg-primary-50 rounded-church p-8 border-l-4 border-primary-500">
-          <h3 class="font-display text-xl text-primary-800 mb-4 uppercase">
-            {{ post.meta('_ministry_involved_head') ?: 'How to Get Involved' }}
-          </h3>
-          <div class="text-neutral-800 text-base/7">
-            {{ post.meta('_ministry_involved_text') }}
-          </div>
-          <button class="mt-6 bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-8 rounded-church transition-colors uppercase text-sm tracking-widest shadow-sm">
-            Contact This Ministry
-          </button>
-        </section>
+        {% if post.meta('_ministry_caption') %}
+          <p class="text-xl/8 md:text-2xl/9 text-neutral-500 font-medium mb-8">
+            {{ post.meta('_ministry_caption') }}
+          </p>
         {% endif %}
 
-      </main>
-
-      {# --- Right Column: Sidebar / Leader Info --- #}
-      <aside class="lg:col-span-4">
-        <div class="sticky top-8 space-y-8">
-          
-          {# Leader Card #}
-          <div class="bg-white p-6 rounded-church shadow-sm border border-neutral-200 text-center">
-            <h3 class="font-display text-sm text-neutral-500 uppercase tracking-widest mb-6">Ministry Leader</h3>
-            
-            {% if post.meta('_ministry_leader_photo') %}
-              <div class="mx-auto size-32 mb-4">
-                <img 
-                  src="{{ post.meta('_ministry_leader_photo') }}" 
-                  alt="{{ post.meta('_ministry_leader_name') }}" 
-                  class="size-full object-cover rounded-full border-4 border-gold-500 shadow-sm"
-                >
-              </div>
-            {% endif %}
-
-            <p class="font-display text-xl text-neutral-900 leading-none">
-              {{ post.meta('_ministry_leader_name') }}
-            </p>
-            <p class="text-neutral-500 text-sm mt-2">Northwest Community Church</p>
-          </div>
-
-          {# Secondary Action / Info #}
-          <div class="bg-neutral-900 text-white p-8 rounded-church overflow-hidden relative">
-            <div class="relative z-10">
-              <h4 class="font-display text-lg mb-2">Have Questions?</h4>
-              <p class="text-neutral-400 text-sm/6 mb-4">We would love to help you find your place in our community.</p>
-              <a href="/contact" class="text-gold-500 font-bold hover:text-gold-400 transition-colors inline-flex items-center gap-2">
-                Visit Contact Page
-                <span>&rarr;</span>
-              </a>
-            </div>
-            {# Suble v4.1 Mask/Gradient Effect #}
-            <div class="absolute inset-0 bg-linear-to-br from-primary-900/20 to-transparent pointer-events-none"></div>
-          </div>
-
+        <div class="text-neutral-700 text-base/7 md:text-lg/8 whitespace-pre-wrap">
+          {{ post.meta('_ministry_description') }}
         </div>
-      </aside>
+      </div>
+
+      {# Right Column: Leader Photo & Name #}
+      <div class="lg:col-span-4 order-1 lg:order-2 flex flex-col items-center text-center">
+        {% if post.meta('_ministry_leader_photo') %}
+          <div class="size-64 md:size-80 mb-6">
+            <img 
+              src="{{ post.meta('_ministry_leader_photo') }}" 
+              alt="{{ post.meta('_ministry_leader_name') }}" 
+              class="size-full object-cover rounded-church shadow-xl border-b-4 border-gold-500"
+            >
+          </div>
+        {% endif %}
+        
+        <h3 class="font-display text-2xl text-neutral-900 uppercase tracking-wide">
+          {{ post.meta('_ministry_leader_name') }}
+        </h3>
+        <p class="text-neutral-500 font-bold uppercase tracking-widest text-xs mt-2">Ministry Leader</p>
+      </div>
 
     </div>
-  </div>
+  </section>
+
+  {# --- Section 2: Image & Involvement (Alternated) --- #}
+  <section class="bg-white border-y border-neutral-200">
+    <div class="mx-auto max-w-container-3xl px-4 py-12 md:py-18 lg:py-22">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-18 items-center">
+        
+        {# Left Column: Hero Image #}
+        <div class="lg:col-span-6">
+          {% if post.meta('_ministry_hero_image') %}
+            <div class="aspect-video lg:aspect-square overflow-hidden rounded-church shadow-2xl">
+              <img 
+                src="{{ post.meta('_ministry_hero_image') }}" 
+                alt="{{ post.meta('_ministry_hero_desc') }}" 
+                class="size-full object-cover hover:scale-105 transition-transform duration-700"
+              >
+            </div>
+          {% endif %}
+        </div>
+
+        {# Right Column: How to get involved #}
+        <div class="lg:col-span-6">
+          <div class="bg-primary-50 p-8 md:p-12 rounded-church">
+            <h2 class="font-display text-3xl md:text-4xl text-primary-800 mb-6 uppercase">
+              {{ post.meta('_ministry_involved_head') ?: 'How to Get Involved' }}
+            </h2>
+            <div class="text-neutral-800 text-base/7 md:text-lg/8 mb-8">
+              {{ post.meta('_ministry_involved_text') }}
+            </div>
+            
+            <a href="/contact" class="inline-block bg-primary-600 hover:bg-primary-700 text-white font-bold py-4 px-10 rounded-church transition-all hover:shadow-lg uppercase text-sm tracking-widest">
+              Get Started Today
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
 </article>
 {% endblock %}
