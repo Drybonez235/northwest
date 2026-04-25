@@ -1,22 +1,20 @@
 <?php
-/**
- * The Template for displaying all single ministry posts
- *
- * Methods for TimberHelper can be found in the /lib sub-directory
- *
- * @package  WordPress
- * @subpackage  Timber
- * @since    Timber 0.1
- */
-
 use Timber\Timber;
 
-// Get the global Timber context
 $context = Timber::context();
 
-// Get the specific ministry post
-$timber_post = Timber::get_post();
-$context['post'] = $timber_post;
+// In Timber 2.x, Timber::get_post() is the preferred way
+$post = Timber::get_post();
 
-// Render the twig file
-Timber::render(['single-ministry.twig', 'single.twig'], $context);
+// Check if the post exists before passing it
+if ( ! $post ) {
+    // This helps debug if WordPress even thinks we are on a valid single page
+    status_header( 404 );
+    nocache_headers();
+    include( get_query_template( '404' ) );
+    die();
+}
+
+$context['post'] = $post;
+
+Timber::render( 'single-ministry.twig', $context );

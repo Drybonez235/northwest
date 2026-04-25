@@ -153,11 +153,15 @@ function nw_register_ministry_post_type() {
         'show_ui'            => true,
         'show_in_menu'       => true,
         'query_var'          => true,
-        'rewrite'            => ['slug' => 'ministries'],
         'capability_type'    => 'post',
-        'hierarchical'       => false,
+       'hierarchical'       => true, // Allows parent-child relationships
+        'supports'           => ['title', 'thumbnail', 'revisions', 'page-attributes'], // 'page-attributes' adds the Parent dropdown
+        'rewrite'            => [
+            'slug'       => 'ministries',
+            'with_front' => false,
+            'hierarchical' => true // Tells WordPress to include the parent slug in the URL
+        ], 
         'menu_icon'          => 'dashicons-groups', // Church/Groups icon
-        'supports'           => ['title', 'thumbnail', 'revisions'], // We use custom fields for the rest
         'show_in_rest'       => true,
     ];
 
