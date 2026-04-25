@@ -6,4 +6,4 @@ $context = Timber::context();
 $context['posts'] = Timber::get_posts();
 
 // Tell Timber to look for 'index.twig' and pass it the data
-Timber::render( 'index.twig', $context );
+Timber::render( 'base.twig', $context );
