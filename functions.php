@@ -38,42 +38,42 @@ add_action('after_setup_theme', 'mychurch_setup');
 
 
 
-function church_sermon_hero_shortcode() {
-    // This tells Timber to render the partial and return it as a string
-    return Timber::compile('partials/sermon-hero.twig', Timber::context());
-}
-add_shortcode('sermon_hero', 'church_sermon_hero_shortcode');
+// function church_sermon_hero_shortcode() {
+//     // This tells Timber to render the partial and return it as a string
+//     return Timber::compile('partials/sermon-hero.twig', Timber::context());
+// }
+// add_shortcode('sermon_hero', 'church_sermon_hero_shortcode');
 
 /**
  * Shortcode to render the Services Section
  * Usage: [services_section]
  */
-add_shortcode('services_section', function() {
+// add_shortcode('services_section', function() {
 
-    // We return the render as a string for the shortcode
-    return Timber::compile('partials/services-section.twig', Timber::context());
-});
+//     // We return the render as a string for the shortcode
+//     return Timber::compile('partials/services-section.twig', Timber::context());
+// });
 
 
-function church_register_patterns() {
-    register_block_pattern(
-        'church/sermon-hero',
-        array(
-            'title'       => __( 'Sermon Hero Block', 'northwest' ),
-            'categories'  => array( 'header' ),
-            'content'     => '[sermon_hero]',
-        ),
-         'my-theme/services-section',
-        array(
-            'title'       => __('Services with Image Bleed', 'textdomain'),
-            'categories'  => array('church-layouts'),
-            // This 'content' is the raw block markup that Gutenberg uses
-            'content'     => '[services_section]',
-        )
-    );
+// function church_register_patterns() {
+//     register_block_pattern(
+//         'church/sermon-hero',
+//         array(
+//             'title'       => __( 'Sermon Hero Block', 'northwest' ),
+//             'categories'  => array( 'header' ),
+//             'content'     => '[sermon_hero]',
+//         ),
+//          'my-theme/services-section',
+//         array(
+//             'title'       => __('Services with Image Bleed', 'textdomain'),
+//             'categories'  => array('church-layouts'),
+//             // This 'content' is the raw block markup that Gutenberg uses
+//             'content'     => '[services_section]',
+//         )
+//     );
     
-}
-add_action('init', 'church_register_patterns');
+// }
+// add_action('init', 'church_register_patterns');
 
 
 add_filter('timber/context', function( $context ) {
@@ -123,6 +123,8 @@ add_filter('timber/context', function( $context ) {
         ],
 
     ];
+
+    return $context;
 });
 
 /**
