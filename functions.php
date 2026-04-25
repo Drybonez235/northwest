@@ -8,7 +8,7 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
     require_once( __DIR__ . '/vendor/autoload.php' );
 }
 Timber\Timber::init();
-Timber::$dirname = ['views'];
+Timber::$dirname = ['templates','views'];
 
 define( 'MYTHEME_SUB_FUNCTIONS_DIR', get_template_directory() . '/sub-functions/' );
 require_once MYTHEME_SUB_FUNCTIONS_DIR . 'home-page.php';
