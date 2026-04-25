@@ -124,3 +124,149 @@ add_filter('timber/context', function( $context ) {
 
     ];
 });
+
+/**
+ * Register Custom Post Type: Ministry
+ */
+function nw_register_ministry_post_type() {
+    $labels = [
+        'name'                  => 'Ministries',
+        'singular_name'         => 'Ministry',
+        'menu_name'             => 'Ministries',
+        'add_new'               => 'Add New Ministry',
+        'add_new_item'          => 'Add New Ministry',
+        'edit_item'             => 'Edit Ministry',
+        'new_item'              => 'New Ministry',
+        'view_item'             => 'View Ministry',
+        'search_items'          => 'Search Ministries',
+        'not_found'             => 'No Ministries found',
+        'all_items'             => 'All Ministries',
+    ];
+
+    $args = [
+        'labels'             => $labels,
+        'public'             => true,
+        'has_archive'        => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => ['slug' => 'ministries'],
+        'capability_type'    => 'post',
+        'hierarchical'       => false,
+        'menu_icon'          => 'dashicons-groups', // Church/Groups icon
+        'supports'           => ['title', 'thumbnail', 'revisions'], // We use custom fields for the rest
+        'show_in_rest'       => true,
+    ];
+
+    register_post_type('ministry', $args);
+}
+add_action('init', 'nw_register_ministry_post_type');
+
+/**
+ * Add Meta Boxes for Ministry Details
+ */
+function nw_add_ministry_meta_boxes() {
+    add_meta_box(
+        'ministry_details',
+        'Ministry Information',
+        'nw_render_ministry_meta_box',
+        'ministry',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'nw_add_ministry_meta_boxes');
+
+/**
+ * Render Meta Box Fields
+ */
+function nw_render_ministry_meta_box($post) {
+    // Add nonce for security
+    wp_nonce_field('nw_ministry_meta_nonce', 'nw_ministry_nonce');
+
+    // Retrieve existing values
+    $values = [
+        'caption'        => get_post_meta($post->ID, '_ministry_caption', true),
+        'leader_name'    => get_post_meta($post->ID, '_ministry_leader_name', true),
+        'leader_photo'   => get_post_meta($post->ID, '_ministry_leader_photo', true),
+        'hero_image'     => get_post_meta($post->ID, '_ministry_hero_image', true),
+        'hero_desc'      => get_post_meta($post->ID, '_ministry_hero_desc', true),
+        'description'    => get_post_meta($post->ID, '_ministry_description', true),
+        'involved_head'  => get_post_meta($post->ID, '_ministry_involved_head', true),
+        'involved_text'  => get_post_meta($post->ID, '_ministry_involved_text', true),
+    ];
+
+    // Simple styling for the admin panel
+    echo '<style>.nw-admin-field { margin-bottom: 20px; } .nw-admin-field label { display: block; font-weight: bold; margin-bottom: 5px; } .nw-admin-field input, .nw-admin-field textarea { width: 100%; }</style>';
+
+    // Fields
+    ?>
+    <div class="nw-admin-field">
+        <label>Ministry Caption (Short summary)</label>
+        <input type="text" name="ministry_caption" value="<?php echo esc_attr($values['caption']); ?>">
+    </div>
+    
+    <div class="nw-admin-field">
+        <label>Ministry Leader Name</label>
+        <input type="text" name="ministry_leader_name" value="<?php echo esc_attr($values['leader_name']); ?>">
+    </div>
+
+    <div class="nw-admin-field">
+        <label>Leader Photo URL</label>
+        <input type="url" name="ministry_leader_photo" value="<?php echo esc_url($values['leader_photo']); ?>">
+    </div>
+
+    <div class="nw-admin-field">
+        <label>Hero Image URL</label>
+        <input type="url" name="ministry_hero_image" value="<?php echo esc_url($values['hero_image']); ?>">
+    </div>
+
+    <div class="nw-admin-field">
+        <label>Hero Image Description</label>
+        <textarea name="ministry_hero_desc" rows="2"><?php echo esc_textarea($values['hero_desc']); ?></textarea>
+    </div>
+
+    <div class="nw-admin-field">
+        <label>Full Ministry Description</label>
+        <textarea name="ministry_description" rows="5"><?php echo esc_textarea($values['description']); ?></textarea>
+    </div>
+
+    <div class="nw-admin-field">
+        <label>How to be involved (Heading)</label>
+        <input type="text" name="ministry_involved_head" value="<?php echo esc_attr($values['involved_head']); ?>">
+    </div>
+
+    <div class="nw-admin-field">
+        <label>How to be involved (Text/Instructions)</label>
+        <textarea name="ministry_involved_text" rows="4"><?php echo esc_textarea($values['involved_text']); ?></textarea>
+    </div>
+    <?php
+}
+
+/**
+ * Save Meta Box Data
+ */
+function nw_save_ministry_meta($post_id) {
+    if (!isset($_POST['nw_ministry_nonce']) || !wp_verify_nonce($_POST['nw_ministry_nonce'], 'nw_ministry_meta_nonce')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+
+    $fields = [
+        '_ministry_caption'       => 'ministry_caption',
+        '_ministry_leader_name'   => 'ministry_leader_name',
+        '_ministry_leader_photo'  => 'ministry_leader_photo',
+        '_ministry_hero_image'    => 'ministry_hero_image',
+        '_ministry_hero_desc'     => 'ministry_hero_desc',
+        '_ministry_description'   => 'ministry_description',
+        '_ministry_involved_head' => 'ministry_involved_head',
+        '_ministry_involved_text' => 'ministry_involved_text',
+    ];
+
+    foreach ($fields as $key => $post_key) {
+        if (isset($_POST[$post_key])) {
+            update_post_meta($post_id, $key, sanitize_text_field($_POST[$post_key]));
+        }
+    }
+}
+add_action('save_post', 'nw_save_ministry_meta');
