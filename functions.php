@@ -77,11 +77,20 @@ add_action('after_setup_theme', 'mychurch_setup');
 
 
 add_filter('timber/context', function( $context ) {
-    if (str_starts_with($current_path, '/es')) {
-    $context['menu'] = Timber::get_menu('header_es');
+    // Grab the current URL path and ensure it's not null
+    $current_path = $_SERVER['REQUEST_URI'] ?? '';
+
+    // Check if the URL contains '/es/' or '/es' at the end
+    // We include the slashes to prevent matching words like "business" or "forest"
+    if (str_contains($current_path, '/es/') || str_ends_with($current_path, '/es')) {
+        $context['menu'] = Timber::get_menu('header_es'); 
+        $context['lang'] = 'es';
     } else {
-    $context['menu'] = Timber::get_menu('header_en');
-}
+        // Default to English if '/es/' is not found
+        $context['menu'] = Timber::get_menu('header_en'); 
+        $context['lang'] = 'en';
+    }
+
     $context['site'] = new Timber\Site();
     $context['custom_logo_url'] = wp_get_attachment_image_url(get_theme_mod('custom_logo'), 'full');
 
