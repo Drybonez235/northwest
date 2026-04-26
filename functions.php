@@ -77,7 +77,11 @@ add_action('after_setup_theme', 'mychurch_setup');
 
 
 add_filter('timber/context', function( $context ) {
-    $context['menu'] = Timber::get_menu('primary');
+    if (str_starts_with($current_path, '/es')) {
+    $context['menu'] = Timber::get_menu('header_es');
+    } else {
+    $context['menu'] = Timber::get_menu('header_en');
+}
     $context['site'] = new Timber\Site();
     $context['custom_logo_url'] = wp_get_attachment_image_url(get_theme_mod('custom_logo'), 'full');
 
@@ -285,3 +289,8 @@ function nw_save_ministry_meta($post_id) {
     }
 }
 add_action('save_post', 'nw_save_ministry_meta');
+
+register_nav_menus([
+    'header_en' => 'English Header Slot',
+    'header_es' => 'Spanish Header Slot',
+]);
