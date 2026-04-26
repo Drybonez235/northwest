@@ -206,6 +206,7 @@ function nw_render_ministry_meta_box($post) {
     $values = [
         'caption'          => get_post_meta($post->ID, '_ministry_caption', true),
         'leader_name'      => get_post_meta($post->ID, '_ministry_leader_name', true),
+        'leader_title'      => get_post_meta($post->ID, '_ministry_leader_title', true),
         'leader_photo'     => get_post_meta($post->ID, '_ministry_leader_photo', true),
         'hero_image'       => get_post_meta($post->ID, '_ministry_hero_image', true),
         'hero_desc'        => get_post_meta($post->ID, '_ministry_hero_desc', true),
@@ -239,7 +240,7 @@ function nw_render_ministry_meta_box($post) {
 
     <div class="nw-admin-field"><label>Ministry Caption</label><input type="text" name="ministry_caption" value="<?php echo esc_attr($values['caption']); ?>"></div>
     <div class="nw-admin-field"><label>Ministry Leader Name</label><input type="text" name="ministry_leader_name" value="<?php echo esc_attr($values['leader_name']); ?>"></div>
-    <div class="nw-admin-field"><label>Ministry Leader Title</label><input type="text" name="ministry_title_name" value="<?php echo esc_attr($values['title_name']); ?>"></div>
+    <div class="nw-admin-field"><label>Ministry Leader Name</label><input type="text" name="_ministry_leader_title" value="<?php echo esc_attr($values['leader_title']); ?>"></div>
     <div class="nw-admin-field"><label>Leader Photo URL</label><input type="url" name="ministry_leader_photo" value="<?php echo esc_url($values['leader_photo']); ?>"></div>
     
     <div class="nw-admin-field" style="background: #f9f9f9; padding: 10px;">
@@ -277,6 +278,7 @@ function nw_save_ministry_meta($post_id) {
     $fields = [
         '_ministry_caption'       => 'ministry_caption',
         '_ministry_leader_name'   => 'ministry_leader_name',
+        '_ministry_leader_title' =>  'ministry_leader_title',
         '_ministry_leader_photo'  => 'ministry_leader_photo',
         '_ministry_hero_image'    => 'ministry_hero_image',
         '_ministry_hero_desc'     => 'ministry_hero_desc',
