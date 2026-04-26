@@ -239,6 +239,7 @@ function nw_render_ministry_meta_box($post) {
 
     <div class="nw-admin-field"><label>Ministry Caption</label><input type="text" name="ministry_caption" value="<?php echo esc_attr($values['caption']); ?>"></div>
     <div class="nw-admin-field"><label>Ministry Leader Name</label><input type="text" name="ministry_leader_name" value="<?php echo esc_attr($values['leader_name']); ?>"></div>
+    <div class="nw-admin-field"><label>Ministry Leader Title</label><input type="text" name="ministry_title_name" value="<?php echo esc_attr($values['leader_title']); ?>"></div>
     <div class="nw-admin-field"><label>Leader Photo URL</label><input type="url" name="ministry_leader_photo" value="<?php echo esc_url($values['leader_photo']); ?>"></div>
     
     <div class="nw-admin-field" style="background: #f9f9f9; padding: 10px;">
