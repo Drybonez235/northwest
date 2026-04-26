@@ -74,9 +74,12 @@
               {{ post.meta('_ministry_involved_text') }}
             </div>
             
-            <a href="/contact" class="inline-block bg-primary-600 hover:bg-primary-700 text-white font-bold py-4 px-10 rounded-church transition-all hover:shadow-lg uppercase text-sm tracking-widest">
-              Get Started Today
-            </a>
+            {# 3. Updated CTA Button in the "Involved" section #}
+{% if post.meta('_ministry_cta_url') %}
+    <a href="{{ post.meta('_ministry_cta_url') }}" class="inline-block bg-primary-600 hover:bg-primary-700 text-white font-bold py-4 px-10 rounded-church transition-all hover:shadow-lg uppercase text-sm tracking-widest">
+        {{ post.meta('_ministry_cta_text') ?: (post.meta('_ministry_en_es') == 'ES' ? 'Empezar Hoy' : 'Get Started Today') }}
+    </a>
+{% endif %}
           </div>
         </div>
 
