@@ -43,6 +43,27 @@
           
         </div>
       </div>
+      {# Regular Posts Dropdown #}
+  <div class="group relative flex items-center h-full">
+    <button class="flex items-center gap-1 text-sm font-bold uppercase tracking-wider text-neutral-700 group-hover:text-primary-600 transition-colors cursor-pointer">
+      {{ lang == 'es' ? 'Sobre Nosotros' : 'About Us' }}
+      <svg class="size-4 opacity-40 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    {# Dropdown Menu - Aligned Right to stay on screen #}
+    <div class="absolute top-full right-0 w-72 bg-white shadow-md border border-neutral-100 rounded-church py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-">
+      {% for post in nav_posts %}
+        <a href="{{ post.link }}" class="block px-6 py-3 hover:bg-neutral-50 group/item transition-colors">
+          <time class="block text-[10px] font-black uppercase tracking-widest text-gold-600 mb-1">
+            {{ post.date }}
+          </time>
+          <span class="block text-sm/5 font-bold text-neutral-800 group-hover/item:text-primary-600">
+            {{ post.title }}
+          </span>
+        </a>
+      {% endfor %}
     </nav>
   </div>
 </header>

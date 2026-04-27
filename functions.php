@@ -71,6 +71,21 @@ add_filter('timber/context', function( $context ) {
         ],
     ]);
 
+    // Fetch the 5 latest regular blog posts
+    $context['nav_posts'] = Timber::get_posts([
+        'post_type'      => 'post',
+        'posts_per_page' => 5,
+        'orderby'        => 'title',
+        'order'          => 'ASC',
+        'tax_query' => [
+            [
+                'taxonomy' => 'category',
+                'field'    => 'slug',
+                'terms'    => $lang_code,
+            ],
+        ],
+    ]);
+
 
     $context['site'] = new Timber\Site();
     $context['custom_logo_url'] = wp_get_attachment_image_url(get_theme_mod('custom_logo'), 'full');
