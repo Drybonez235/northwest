@@ -1,35 +1,20 @@
-<header class="bg-slate-50 flex flex-col md:flex-row items-center justify-between p-4 lg:p-6 border-b border-black/10">
+<header class="bg-white border-b border-neutral-100 font-sans sticky top-0 z-50">
+  <div class="container mx-auto px-4 flex items-center justify-between h-20">
     
-    {# Logo and Church Name Wrapper #}
-    <div class="flex items-center gap-4">
-        <div class="site-logo">
-            {% if custom_logo_url %}
-                <a href="{{ site.url }}">
-                    <img src="{{ custom_logo_url }}" alt="{{ theme.name }}" class="h-12 w-auto">
-                </a>
-            {% else %}
-                <h1 class="text-xl/7 font-bold">
-                    <a href="{{ site.url }}">{{ theme.name }}</a>
-                </h1>
-            {% endif %}
-        </div>
+    {# Logo #}
+    <a href="{{ site.url }}" class="shrink-0">
+      <img src="{{ custom_logo_url }}" alt="Northwest Community Church" class="h-12 w-auto">
+    </a>
 
-        <h2 class="text-lg/6 font-semibold text-gray-800">
-            {{ theme.name }}
-        </h2>
-    </div>
+    {# Desktop Navigation #}
+    <nav class="hidden md:flex items-center gap-8">
+      {% for item in menu.get_items %}
+        <a href="{{ item.link }}" class="text-sm font-bold uppercase tracking-wider text-neutral-700 hover:text-primary-600 transition-colors">
+          {{ item.title }}
+        </a>
+      {% endfor %}
 
-    {# Primary Navigation #}
-    <nav class="mt-4 md:mt-0">
-        <ul class="flex gap-6 list-none">
-            {#% for item in menu.items % 
-                <li class="{{ item.classes | join(' ') }}">
-                    <a href="{{ item.link }}" class="text-base/6 font-medium !text-gray-800 !hover:text-black transition-all hover:scale-110 ">
-                        {{ item.title }}
-                    </a>
-                </li>
-            {% endfor %} #}
-           {# Dynamic Ministries Dropdown #}
+      {# Dynamic Ministries Dropdown #}
       <div class="group relative py-4">
         <button class="flex items-center gap-1 text-sm font-bold uppercase tracking-wider text-neutral-700 group-hover:text-primary-600 transition-colors cursor-pointer">
           {{ lang == 'es' ? 'Ministerios' : 'Ministries' }}
@@ -44,20 +29,11 @@
                 {# Uses Title Name meta, falls back to Post Title #}
                 {{ ministry.meta('_ministry_title_name') ?: ministry.title }}
               </span>
-              {% if ministry.meta('_ministry_caption') %}
-                <span class="block text-xs/4 text-neutral-500">{{ ministry.meta('_ministry_caption') }}</span>
-              {% endif %}
             </a>
           {% endfor %}
           
-          {# "View All" Link #}
-          <div class="border-t border-neutral-50 mt-2 pt-2 px-6">
-            <a href="/ministries" class="text-xs font-black uppercase tracking-widest text-gold-700 hover:text-primary-600">
-              {{ lang == 'es' ? 'Ver Todos' : 'View All' }} &rarr;
-            </a>
-          </div>
         </div>
-        </ul>
+      </div>
     </nav>
-
+  </div>
 </header>
