@@ -37,19 +37,40 @@ function mychurch_setup() {
 add_action('after_setup_theme', 'mychurch_setup');
 
 add_filter('timber/context', function( $context ) {
-    // Grab the current URL path and ensure it's not null
-    $current_path = $_SERVER['REQUEST_URI'] ?? '';
+   $current_path = $_SERVER['REQUEST_URI'] ?? '';
 
-    // Check if the URL contains '/es/' or '/es' at the end
-    // We include the slashes to prevent matching words like "business" or "forest"
+    // 1. Language Detection Logic
+    // We determine the language string once to use for both Menus and Meta Queries
     if (str_contains($current_path, '/es/') || str_ends_with($current_path, '/es')) {
-        $context['menu'] = Timber::get_menu('header_es'); 
-        $context['lang'] = 'es';
+        $lang_code = 'es';
+        $menu_id = 'header_es';
+        $meta_value = 'ES'; // Matches the 'Language Setting' meta box value
     } else {
-        // Default to English if '/es/' is not found
-        $context['menu'] = Timber::get_menu('header_en'); 
-        $context['lang'] = 'en';
+        $lang_code = 'en';
+        $menu_id = 'header_en';
+        $meta_value = 'EN';
     }
+
+    // 2. Set Context Variables
+    $context['lang'] = $lang_code;
+    $context['menu'] = Timber::get_menu($menu_id);
+
+    // 3. Pull Filtered Ministries
+    // This pulls only ministries assigned to the detected language
+    $context['nav_ministries'] = Timber::get_posts([
+        'post_type' => 'ministry',
+        'posts_per_page' => -1,
+        'orderby' => 'title',
+        'order' => 'ASC',
+        'meta_query' => [
+            [
+                'key'     => '_ministry_en_es', // The key from your nw_save_ministry_meta function
+                'value'   => $meta_value,
+                'compare' => '=',
+            ],
+        ],
+    ]);
+
 
     $context['site'] = new Timber\Site();
     $context['custom_logo_url'] = wp_get_attachment_image_url(get_theme_mod('custom_logo'), 'full');

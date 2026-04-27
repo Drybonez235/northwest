@@ -22,13 +22,24 @@
     {# Primary Navigation #}
     <nav class="mt-4 md:mt-0">
         <ul class="flex gap-6 list-none">
-            {% for item in menu.items %}
+            {#% for item in menu.items % 
                 <li class="{{ item.classes | join(' ') }}">
                     <a href="{{ item.link }}" class="text-base/6 font-medium !text-gray-800 !hover:text-black transition-all hover:scale-110 ">
                         {{ item.title }}
                     </a>
                 </li>
-            {% endfor %}
+            {% endfor %} #}
+            {% for ministry in nav_ministries %}
+            <a href="{{ ministry.link }}" class="block px-6 py-2.5 hover:bg-neutral-50 group/item">
+              <span class="block text-sm font-bold text-neutral-800 group-hover/item:text-primary-600">
+                {# Uses Title Name meta, falls back to Post Title #}
+                {{ ministry.meta('_ministry_title_name') ?: ministry.title }}
+              </span>
+              {% if ministry.meta('_ministry_caption') %}
+                <span class="block text-xs/4 text-neutral-500">{{ ministry.meta('_ministry_caption') }}</span>
+              {% endif %}
+            </a>
+          {% endfor %}
         </ul>
     </nav>
 
