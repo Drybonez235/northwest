@@ -1,0 +1,112 @@
+{# Use the NW Display font for headings and NW Sans for body #}
+<main class="font-sans text-neutral-900 bg-white">
+
+  {# --- Hero Section --- #}
+  {# Using min-h-dvh for mobile stability #}
+  <section class="relative flex items-center justify-center min-h-dvh bg-neutral-900 text-white overflow-hidden">
+    {% if post.meta('_Church_Hero_Image_URL') %}
+      <img src="{{ post.meta('_Church_Hero_Image_URL') }}" alt="{{ post.meta('_Church_Name') }}" class="absolute inset-0 size-full object-cover opacity-60">
+    {% endif %}
+    
+    <div class="relative z-10 container mx-auto px-4 text-center">
+      <h1 class="font-display text-4xl md:text-6xl font-bold mb-6 text-shadow-lg">
+        {{ post.meta('_Church_Name') }}
+      </h1>
+      <p class="text-lg/8 md:text-xl/9 max-w-2xl mx-auto text-neutral-100">
+        {{ post.meta('_Church_Intro_Text') }}
+      </p>
+    </div>
+  </section>
+
+  {# --- Mission Statement --- #}
+  {# Using --spacing-18 from style.css #}
+  <section class="py-18 bg-neutral-50 text-center">
+    <div class="container mx-auto px-4 max-w-3xl">
+      <h2 class="text-3xl font-display font-bold text-primary-600 mb-6">
+        {{ post.meta('_Church_Mission_Statement_Heading') }}
+      </h2>
+      <div class="text-base/7 text-neutral-700">
+        {{ post.meta('_Church_Mission_Statement_Text') }}
+      </div>
+    </div>
+  </section>
+
+  {# --- Services Section --- #}
+  <section class="relative py-22 text-white bg-neutral-800">
+    {% if post.meta('_Church_Services_Background_Image_URL') %}
+      <img src="{{ post.meta('_Church_Services_Background_Image_URL') }}" class="absolute inset-0 size-full object-cover opacity-20" alt="Services Background">
+    {% endif %}
+
+    <div class="relative z-10 container mx-auto px-4">
+      <h2 class="text-3xl font-display font-bold text-center mb-12">{{ post.meta('_Church_Services_Header') }}</h2>
+      
+      {# Grid with gap utilities instead of margins #}
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {# Sunday School #}
+        <div class="bg-white/10 backdrop-blur-sm p-8 rounded-church border border-white/20">
+          <h3 class="text-xl font-bold text-gold-500 mb-2">{{ post.meta('_Service_Sunday_School_Header') }}</h3>
+          <p class="text-sm font-semibold uppercase tracking-wider mb-4">{{ post.meta('_Service_Sunday_School_Time') }}</p>
+          <p class="text-sm/6 opacity-90">{{ post.meta('_Service_Sunday_School_Header_Text') }}</p>
+        </div>
+
+        {# Sunday Worship - Featured with Primary Brand Color #}
+        <div class="bg-primary-600 p-8 rounded-church shadow-sm transform md:-translate-y-4">
+          <h3 class="text-xl font-bold text-white mb-2">{{ post.meta('_Service_Sunday_Worship_Header') }}</h3>
+          <p class="text-sm font-semibold uppercase tracking-wider mb-4">{{ post.meta('_Service_Sunday_Worship_Header_Time') }}</p>
+          <p class="text-sm/6">{{ post.meta('_Service_Sunday_Worship_Header_Text') }}</p>
+        </div>
+
+        {# Small Groups #}
+        <div class="bg-white/10 backdrop-blur-sm p-8 rounded-church border border-white/20">
+          <h3 class="text-xl font-bold text-gold-500 mb-2">{{ post.meta('_Service_Small_Group_Header') }}</h3>
+          <p class="text-sm font-semibold uppercase tracking-wider mb-4">{{ post.meta('_Service_Small_Group_Time') }}</p>
+          <p class="text-sm/6 opacity-90">{{ post.meta('_Service_Small_Group_Text') }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# --- About Us Section --- #}
+  <section class="grid grid-cols-1 lg:grid-cols-2">
+    <div class="min-h-80 bg-neutral-200">
+      <img src="{{ post.meta('_Church_About_Us_Background_Image_URL') }}" class="size-full object-cover" alt="About Northwest">
+    </div>
+    <div class="p-8 md:p-18 flex flex-col justify-center bg-white">
+      <h2 class="text-3xl font-display font-bold text-neutral-900 mb-6">{{ post.meta('_Church_About_Us_Header') }}</h2>
+      <p class="text-base/7 text-neutral-600 mb-8">{{ post.meta('_Church_About_Us_Text') }}</p>
+      <a href="{{ post.meta('_Church_About_Us_CTA_URL') }}" class="inline-block w-fit px-8 py-3 bg-primary-500 text-white font-bold rounded-sm hover:bg-primary-600 transition-colors">
+        {{ post.meta('_Church_About_Us_CTA_Text') }}
+      </a>
+    </div>
+  </section>
+
+  {# --- Ministries Section --- #}
+  <section class="py-22 bg-neutral-50">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-display font-bold text-center mb-12 text-neutral-900">
+        {{ post.meta('_Church_Ministries_Header') }}
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {% for i in 1..3 %}
+          {% set m_header = post.meta('_Church_Ministry_Header_' ~ i) %}
+          {% set m_url = post.meta('_Church_Ministry_URL_' ~ i) %}
+          {% set m_img = post.meta('_Church_Ministry_Background_Image_URL_' ~ i) %}
+
+          <a href="{{ m_url }}" class="group relative block h-64 overflow-hidden rounded-church bg-neutral-900">
+            <img src="{{ m_img }}" class="absolute inset-0 size-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-500" alt="{{ m_header }}">
+            {# Use modern bg-linear-to-t per v4 rules #}
+            <div class="absolute inset-0 bg-linear-to-t from-neutral-950/80 to-transparent"></div>
+            <div class="absolute bottom-0 p-6">
+              <h3 class="text-xl font-bold text-white">{{ m_header }}</h3>
+              <span class="text-gold-500 text-sm font-bold flex items-center gap-2 mt-2">
+                Learn More <span>&rarr;</span>
+              </span>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+</main>

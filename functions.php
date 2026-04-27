@@ -36,46 +36,6 @@ function mychurch_setup() {
 }
 add_action('after_setup_theme', 'mychurch_setup');
 
-
-
-// function church_sermon_hero_shortcode() {
-//     // This tells Timber to render the partial and return it as a string
-//     return Timber::compile('partials/sermon-hero.twig', Timber::context());
-// }
-// add_shortcode('sermon_hero', 'church_sermon_hero_shortcode');
-
-/**
- * Shortcode to render the Services Section
- * Usage: [services_section]
- */
-// add_shortcode('services_section', function() {
-
-//     // We return the render as a string for the shortcode
-//     return Timber::compile('partials/services-section.twig', Timber::context());
-// });
-
-
-// function church_register_patterns() {
-//     register_block_pattern(
-//         'church/sermon-hero',
-//         array(
-//             'title'       => __( 'Sermon Hero Block', 'northwest' ),
-//             'categories'  => array( 'header' ),
-//             'content'     => '[sermon_hero]',
-//         ),
-//          'my-theme/services-section',
-//         array(
-//             'title'       => __('Services with Image Bleed', 'textdomain'),
-//             'categories'  => array('church-layouts'),
-//             // This 'content' is the raw block markup that Gutenberg uses
-//             'content'     => '[services_section]',
-//         )
-//     );
-    
-// }
-// add_action('init', 'church_register_patterns');
-
-
 add_filter('timber/context', function( $context ) {
     // Grab the current URL path and ensure it's not null
     $current_path = $_SERVER['REQUEST_URI'] ?? '';
@@ -213,7 +173,6 @@ function nw_render_ministry_meta_box($post) {
         'description'      => get_post_meta($post->ID, '_ministry_description', true),
         'involved_head'    => get_post_meta($post->ID, '_ministry_involved_head', true),
         'involved_text'    => get_post_meta($post->ID, '_ministry_involved_text', true),
-        // New Fields
         'title_name'       => get_post_meta($post->ID, '_ministry_title_name', true),
         'cta_text'         => get_post_meta($post->ID, '_ministry_cta_text', true),
         'cta_url'          => get_post_meta($post->ID, '_ministry_cta_url', true),
@@ -285,7 +244,6 @@ function nw_save_ministry_meta($post_id) {
         '_ministry_description'   => 'ministry_description',
         '_ministry_involved_head' => 'ministry_involved_head',
         '_ministry_involved_text' => 'ministry_involved_text',
-        // Save New Fields
         '_ministry_title_name'    => 'ministry_title_name',
         '_ministry_cta_text'      => 'ministry_cta_text',
         '_ministry_cta_url'       => 'ministry_cta_url',
@@ -301,6 +259,58 @@ function nw_save_ministry_meta($post_id) {
     }
 }
 add_action('save_post', 'nw_save_ministry_meta');
+
+/**
+ * Register Meta Boxes for Northwest Community Church Home Page
+ */
+function nw_register_home_meta_boxes() {
+    add_meta_box(
+        'nw_home_fields',
+        'Home Page Details',
+        'nw_home_meta_box_callback',
+        'page' // You can restrict this to a specific template check if needed
+    );
+}
+add_action('add_meta_boxes', 'nw_register_home_meta_boxes');
+
+function nw_home_meta_box_callback($post) {
+    // Array of your requested fields
+    $fields = [
+        'Church_Name', 'Church_Hero_Image_URL', 'Church_Intro_Text', 
+        'Church_Mission_Statement_Heading', 'Church_Mission_Statement_Text',
+        'Church_Services_Header', 'Church_Services_Background_Image_URL',
+        'Service_Sunday_School_Header', 'Service_Sunday_School_Time', 'Service_Sunday_School_Header_Text',
+        'Service_Sunday_Worship_Header', 'Service_Sunday_Worship_Header_Time', 'Service_Sunday_Worship_Header_Text',
+        'Service_Small_Group_Header', 'Service_Small_Group_Time', 'Service_Small_Group_Text',
+        'Church_About_Us_Header', 'Church_About_Us_Background_Image_URL', 'Church_About_Us_Text', 
+        'Church_About_Us_CTA_Text', 'Church_About_Us_CTA_URL',
+        'Church_Ministries_Header',
+        'Church_Ministry_Header_1', 'Church_Ministry_URL_1', 'Church_Ministry_Background_Image_URL_1',
+        'Church_Ministry_Header_2', 'Church_Ministry_URL_2', 'Church_Ministry_Background_Image_URL_2',
+        'Church_Ministry_Header_3', 'Church_Ministry_URL_3', 'Church_Ministry_Background_Image_URL_3'
+    ];
+
+    echo '<div class="nw-meta-container" style="display: grid; gap: 1rem;">';
+    foreach ($fields as $field) {
+        $value = get_post_meta($post->ID, '_' . $field, true);
+        echo '<label style="font-weight:bold; display:block;">' . str_replace('_', ' ', $field) . ':</label>';
+        if (strpos($field, '_Text') !== false || strpos($field, '_Statement') !== false) {
+            echo '<textarea name="' . $field . '" style="width:100%" rows="4">' . esc_textarea($value) . '</textarea>';
+        } else {
+            echo '<input type="text" name="' . $field . '" value="' . esc_attr($value) . '" style="width:100%" />';
+        }
+    }
+    echo '</div>';
+}
+
+function nw_save_home_meta($post_id) {
+    foreach ($_POST as $key => $value) {
+        if (strpos($key, 'Church_') === 0 || strpos($key, 'Service_') === 0) {
+            update_post_meta($post_id, '_' . $key, sanitize_text_field($value));
+        }
+    }
+}
+add_action('save_post', 'nw_save_home_meta');
 
 register_nav_menus([
     'header_en' => 'English Header Slot',
