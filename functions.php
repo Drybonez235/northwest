@@ -269,8 +269,13 @@ function nw_register_homepage_cpt() {
         'public' => true,
         'has_archive' => false,
         'menu_icon' => 'dashicons-admin-home',
-        'supports' => ['title', 'revisions'], // We use meta boxes instead of the editor
-        'rewrite' => ['slug' => 'home'],
+        'hierarchical'       => true, // Allows parent-child relationships
+        'supports'           => ['title', 'thumbnail', 'revisions', 'page-attributes'], // 'page-attributes' adds the Parent dropdown
+        'rewrite'            => [
+            'slug'       => 'home',
+            'with_front' => false,
+            'hierarchical' => true // Tells WordPress to include the parent slug in the URL
+        ], 
     ];
     register_post_type('nw_homepage', $args);
 }
