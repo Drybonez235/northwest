@@ -261,20 +261,37 @@ function nw_save_ministry_meta($post_id) {
 add_action('save_post', 'nw_save_ministry_meta');
 
 /**
+ * Register 'Home Page' Custom Post Type
+ */
+function nw_register_homepage_cpt() {
+    $args = [
+        'labels' => ['name' => 'Home Page', 'singular_name' => 'Home Page'],
+        'public' => true,
+        'has_archive' => false,
+        'menu_icon' => 'dashicons-admin-home',
+        'supports' => ['title', 'revisions'], // We use meta boxes instead of the editor
+        'rewrite' => ['slug' => 'home'],
+    ];
+    register_post_type('nw_homepage', $args);
+}
+add_action('init', 'nw_register_homepage_cpt');
+
+/**
  * Register Meta Boxes for Northwest Community Church Home Page
  */
 function nw_register_home_meta_boxes() {
     add_meta_box(
         'nw_home_fields',
-        'Home Page Details',
+        'Homepage Content Sections',
         'nw_home_meta_box_callback',
-        'page' // You can restrict this to a specific template check if needed
+        'nw_homepage', // Target the new CPT
+        'normal',
+        'high'
     );
 }
 add_action('add_meta_boxes', 'nw_register_home_meta_boxes');
 
 function nw_home_meta_box_callback($post) {
-    // Array of your requested fields
     $fields = [
         'Church_Name', 'Church_Hero_Image_URL', 'Church_Intro_Text', 
         'Church_Mission_Statement_Heading', 'Church_Mission_Statement_Text',
@@ -290,27 +307,30 @@ function nw_home_meta_box_callback($post) {
         'Church_Ministry_Header_3', 'Church_Ministry_URL_3', 'Church_Ministry_Background_Image_URL_3'
     ];
 
-    echo '<div class="nw-meta-container" style="display: grid; gap: 1rem;">';
+    echo '<div style="display: grid; gap: 15px; padding: 10px;">';
     foreach ($fields as $field) {
         $value = get_post_meta($post->ID, '_' . $field, true);
-        echo '<label style="font-weight:bold; display:block;">' . str_replace('_', ' ', $field) . ':</label>';
+        echo '<div>';
+        echo '<label style="font-weight:bold; display:block; margin-bottom:5px;">' . str_replace('_', ' ', $field) . '</label>';
         if (strpos($field, '_Text') !== false || strpos($field, '_Statement') !== false) {
-            echo '<textarea name="' . $field . '" style="width:100%" rows="4">' . esc_textarea($value) . '</textarea>';
+            echo '<textarea name="' . $field . '" style="width:100%" rows="3">' . esc_textarea($value) . '</textarea>';
         } else {
             echo '<input type="text" name="' . $field . '" value="' . esc_attr($value) . '" style="width:100%" />';
         }
+        echo '</div>';
     }
     echo '</div>';
 }
 
 function nw_save_home_meta($post_id) {
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
     foreach ($_POST as $key => $value) {
         if (strpos($key, 'Church_') === 0 || strpos($key, 'Service_') === 0) {
             update_post_meta($post_id, '_' . $key, sanitize_text_field($value));
         }
     }
 }
-add_action('save_post', 'nw_save_home_meta');
+add_action('save_post_nw_homepage', 'nw_save_home_meta');
 
 register_nav_menus([
     'header_en' => 'English Header Slot',
