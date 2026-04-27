@@ -29,7 +29,16 @@
                     </a>
                 </li>
             {% endfor %} #}
-            {% for ministry in nav_ministries %}
+           {# Dynamic Ministries Dropdown #}
+      <div class="group relative py-4">
+        <button class="flex items-center gap-1 text-sm font-bold uppercase tracking-wider text-neutral-700 group-hover:text-primary-600 transition-colors cursor-pointer">
+          {{ lang == 'es' ? 'Ministerios' : 'Ministries' }}
+          <svg class="size-4 opacity-40 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        {# Dropdown Menu #}
+        <div class="absolute top-full left-0 w-64 bg-white shadow-sm border border-neutral-100 rounded-church py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+          {% for ministry in nav_ministries %}
             <a href="{{ ministry.link }}" class="block px-6 py-2.5 hover:bg-neutral-50 group/item">
               <span class="block text-sm font-bold text-neutral-800 group-hover/item:text-primary-600">
                 {# Uses Title Name meta, falls back to Post Title #}
@@ -40,6 +49,14 @@
               {% endif %}
             </a>
           {% endfor %}
+          
+          {# "View All" Link #}
+          <div class="border-t border-neutral-50 mt-2 pt-2 px-6">
+            <a href="/ministries" class="text-xs font-black uppercase tracking-widest text-gold-700 hover:text-primary-600">
+              {{ lang == 'es' ? 'Ver Todos' : 'View All' }} &rarr;
+            </a>
+          </div>
+        </div>
         </ul>
     </nav>
 
