@@ -426,8 +426,8 @@ add_action('add_meta_boxes', 'nw_add_event_meta_boxes');
 function nw_render_event_meta_box($post) {
     // Retrieve existing values
     $values = get_post_custom($post->ID);
-    $is_bilingual = isset($values['nw_event_bilingual']) ? $values['nw_event_bilingual'] : '0';
-    
+   
+    $current_lang = get_post_meta($post->ID, 'nw_event_language', true);
     wp_nonce_field('nw_event_meta_nonce', 'nw_event_meta_nonce_field');
     ?>
     <div class="nw-meta-container">
