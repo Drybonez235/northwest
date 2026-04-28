@@ -228,8 +228,7 @@ function nw_render_ministry_meta_box($post) {
         'title_name'       => get_post_meta($post->ID, '_ministry_title_name', true),
         'cta_text'         => get_post_meta($post->ID, '_ministry_cta_text', true),
         'cta_url'          => get_post_meta($post->ID, '_ministry_cta_url', true),
-        'en_url'           => get_post_meta($post->ID, '_ministry_en_url', true),
-        'es_url'           => get_post_meta($post->ID, '_ministry_es_url', true),
+        'nw_lang_opposite_url'           => get_post_meta($post->ID, '_nw_lang_opposite_url', true),
         'en_es'            => get_post_meta($post->ID, '_ministry_en_es', true),
     ];
 
@@ -264,10 +263,8 @@ function nw_render_ministry_meta_box($post) {
 
     <div class="nw-admin-field">
         <label>Language Switcher Links</label>
-        <label style="font-weight:normal;">English Version URL</label>
-        <input type="url" name="ministry_en_url" value="<?php echo esc_url($values['en_url']); ?>">
-        <label style="font-weight:normal; margin-top:10px;">Spanish Version URL</label>
-        <input type="url" name="ministry_es_url" value="<?php echo esc_url($values['es_url']); ?>">
+        <label style="font-weight:normal;">Opposite Language URL</label>
+        <input type="url" name="nw_lang_opposite_url" value="<?php echo esc_url($values['nw_lang_opposite_url']); ?>">
     </div>
 
     <div class="nw-admin-field"><label>Hero Image URL</label><input type="url" name="ministry_hero_image" value="<?php echo esc_url($values['hero_image']); ?>"></div>
@@ -299,8 +296,7 @@ function nw_save_ministry_meta($post_id) {
         '_ministry_title_name'    => 'ministry_title_name',
         '_ministry_cta_text'      => 'ministry_cta_text',
         '_ministry_cta_url'       => 'ministry_cta_url',
-        '_ministry_en_url'        => 'ministry_en_url',
-        '_ministry_es_url'        => 'ministry_es_url',
+        '_nw_lang_opposite_url'        => 'nw_lang_opposite_url',
         '_ministry_en_es'         => 'ministry_en_es',
     ];
 
@@ -341,7 +337,7 @@ function nw_register_home_meta_boxes() {
         'nw_home_fields',
         'Homepage Content Sections',
         'nw_home_meta_box_callback',
-        'nw_homepage', // Target the new CPT
+        'nw_homepage', 
         'normal',
         'high'
     );
@@ -349,6 +345,11 @@ function nw_register_home_meta_boxes() {
 add_action('add_meta_boxes', 'nw_register_home_meta_boxes');
 
 function nw_home_meta_box_callback($post) {
+    // 1. Define Language and Opposite URL separately for custom rendering
+    $current_lang = get_post_meta($post->ID, '_Language_Setting', true);
+    $opposite_url = get_post_meta($post->ID, '_nw_lang_opposite_url', true);
+
+    // 2. The rest of your existing fields
     $fields = [
         'Church_Name', 'Church_Hero_Image_URL', 'Church_Intro_Text', 
         'Church_Mission_Statement_Heading', 'Church_Mission_Statement_Text',
@@ -364,6 +365,26 @@ function nw_home_meta_box_callback($post) {
         'Church_Ministry_Header_3', 'Church_Ministry_URL_3', 'Church_Ministry_Background_Image_URL_3'
     ];
 
+    echo '<div style="display: grid; gap: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ccc;">';
+    
+    // Render Language Dropdown
+    echo '<div>';
+    echo '<label style="font-weight:bold; display:block; margin-bottom:5px;">Language Setting</label>';
+    echo '<select name="Language_Setting" style="width:100%">';
+    echo '<option value="EN" ' . selected($current_lang, 'EN', false) . '>English</option>';
+    echo '<option value="ES" ' . selected($current_lang, 'ES', false) . '>Spanish</option>';
+    echo '</select>';
+    echo '</div>';
+
+    // Render Opposite URL Input
+    echo '<div>';
+    echo '<label style="font-weight:bold; display:block; margin-bottom:5px;">Opposite Language URL</label>';
+    echo '<input type="url" name="Opposite_Language_URL" value="' . esc_url($opposite_url) . '" style="width:100%" placeholder="https://nwcommunity.church/es/..." />';
+    echo '</div>';
+
+    echo '</div>';
+
+    // Loop through existing fields
     echo '<div style="display: grid; gap: 15px; padding: 10px;">';
     foreach ($fields as $field) {
         $value = get_post_meta($post->ID, '_' . $field, true);
@@ -381,6 +402,16 @@ function nw_home_meta_box_callback($post) {
 
 function nw_save_home_meta($post_id) {
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+    // Specifically handle the language fields
+    if (isset($_POST['Language_Setting'])) {
+        update_post_meta($post_id, '_Language_Setting', sanitize_text_field($_POST['Language_Setting']));
+    }
+    if (isset($_POST['Opposite_Language_URL'])) {
+        update_post_meta($post_id, '_nw_lang_opposite_url', esc_url_raw($_POST['nw_lang_opposite_url']));
+    }
+
+    // Handle your prefixed fields
     foreach ($_POST as $key => $value) {
         if (strpos($key, 'Church_') === 0 || strpos($key, 'Service_') === 0) {
             update_post_meta($post_id, '_' . $key, sanitize_text_field($value));
@@ -448,12 +479,8 @@ function nw_render_event_meta_box($post) {
         </select>
     </div>
             <div class="meta-row">
-                <label>English Page URL</label>
-                <input type="url" name="nw_event_english_url" value="<?php echo esc_url(get_post_meta($post->ID, 'nw_event_english_url', true)); ?>">
-            </div>
-            <div class="meta-row">
-                <label>Spanish Page URL</label>
-                <input type="url" name="nw_event_spanish_url" value="<?php echo esc_url(get_post_meta($post->ID, 'nw_event_spanish_url', true)); ?>">
+                <label>Opposite language Page URL</label>
+                <input type="url" name="nw_lang_opposite_url" value="<?php echo esc_url(get_post_meta($post->ID, 'nw_lang_opposite_url', true)); ?>">
             </div>
         </div>
 
@@ -517,7 +544,7 @@ function nw_save_event_meta($post_id) {
     if (!current_user_can('edit_post', $post_id)) return;
 
     $fields = [
-        'nw_event_bilingual', 'nw_event_english_url', 'nw_event_spanish_url',
+        'nw_event_bilingual', 'nw_lang_opposite_url',
         'nw_event_title', 'nw_event_subtitle', 'nw_event_bg_url',
         'nw_event_date', 'nw_event_time', 'nw_event_location',
         'nw_event_description', 'nw_event_cta_text', 'nw_event_cta_url'
