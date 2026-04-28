@@ -86,6 +86,22 @@ add_filter('timber/context', function( $context ) {
         ],
     ]);
 
+    // 3. Pull Filtered Events
+// This pulls only events assigned to the detected language (English or Spanish)
+$context['nav_events'] = Timber::get_posts([
+    'post_type'      => 'nw_event',
+    'posts_per_page' => -1,
+    'orderby'        => 'title',
+    'order'          => 'ASC',
+    'meta_query'     => [
+        [
+            'key'     => 'nw_event_bilingual', // Matches the key from nw_save_event_meta
+            'value'   => $meta_value,          // Ensure this matches '1' for the toggle
+            'compare' => '=',
+        ],
+    ],
+]);
+
 
     $context['site'] = new Timber\Site();
     $context['custom_logo_url'] = wp_get_attachment_image_url(get_theme_mod('custom_logo'), 'full');

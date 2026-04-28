@@ -28,7 +28,39 @@
 
     {# Desktop Navigation #}
     <nav class="hidden md:flex items-center gap-8">
+        {# Dynamic Events Dropdown #}
+<div class="group relative py-4">
+  <button class="flex items-center gap-1 text-sm font-bold uppercase tracking-wider text-neutral-700 group-hover:text-primary-600 transition-colors cursor-pointer">
+    {{ lang == 'es' ? 'Eventos' : 'Events' }}
+    <svg class="size-4 opacity-40 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
 
+  {# Dropdown Menu #}
+  <div class="absolute top-full right-0 w-64 bg-white shadow-sm border border-neutral-100 rounded-church py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+    {% for event in nav_events %}
+      <a href="{{ event.link }}" class="block px-6 py-2.5 hover:bg-neutral-50 group/item">
+        <span class="block text-sm font-bold text-neutral-800 group-hover/item:text-primary-600">
+          {# Pulls the custom Event Title meta, falls back to WP Post Title #}
+          {{ event.meta('nw_event_title') ?: event.title }}
+        </span>
+        {# Optional: Small date indicator #}
+        {% if event.meta('nw_event_date') %}
+          <span class="block text-[10px] uppercase tracking-tighter text-neutral-400">
+            {{ event.meta('nw_event_date')|date("M j") }}
+          </span>
+        {% endif %}
+      </a>
+    {% endfor %}
+    
+    {% if nav_events is empty %}
+      <div class="px-6 py-2.5 text-xs italic text-neutral-400">
+        {{ lang == 'es' ? 'No hay eventos' : 'No events found' }}
+      </div>
+    {% endif %}
+  </div>
+</div>
       {# Dynamic Ministries Dropdown #}
       <div class="group relative py-4">
         <button class="flex items-center gap-1 text-sm font-bold uppercase tracking-wider text-neutral-700 group-hover:text-primary-600 transition-colors cursor-pointer">
