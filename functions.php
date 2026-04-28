@@ -373,6 +373,147 @@ function nw_save_home_meta($post_id) {
 }
 add_action('save_post_nw_homepage', 'nw_save_home_meta');
 
+// functions.php or inc/post-types.php
+
+function nw_register_event_post_type() {
+    $args = [
+        'labels' => [
+            'name' => 'Events',
+            'singular_name' => 'Event',
+        ],
+        'public' => true,
+        'has_archive' => true,
+        'show_in_rest' => true,
+        'menu_icon' => 'dashicons-calendar-alt',
+        'supports' => ['title', 'editor', 'thumbnail', 'page-attributes'], // page-attributes enables parent support
+        'hierarchical' => true, // Necessary for parent/child relationships
+        'rewrite' => ['slug' => 'events'],
+    ];
+    register_post_type('nw_event', $args);
+}
+add_action('init', 'nw_register_event_post_type');
+
+// functions.php or inc/meta-boxes.php
+
+function nw_add_event_meta_boxes() {
+    add_meta_box(
+        'nw_event_details',
+        'Event Details & Language Settings',
+        'nw_render_event_meta_box',
+        'nw_event',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes', 'nw_add_event_meta_boxes');
+
+function nw_render_event_meta_box($post) {
+    // Retrieve existing values
+    $values = get_post_custom($post->ID);
+    $is_bilingual = isset($values['nw_event_bilingual']) ? $values['nw_event_bilingual'] : '0';
+    
+    wp_nonce_field('nw_event_meta_nonce', 'nw_event_meta_nonce_field');
+    ?>
+    <div class="nw-meta-container">
+        <style>
+            .meta-row { margin-bottom: 15px; display: flex; flex-direction: column; }
+            .meta-row label { font-weight: bold; margin-bottom: 5px; }
+            .meta-row input[type="text"], .meta-row input[type="url"], .meta-row textarea { width: 100%; }
+            .meta-group { border: 1px solid #ccd0d4; padding: 15px; margin-bottom: 20px; background: #fff; }
+        </style>
+
+        <div class="meta-group">
+            <h3>Language Settings</h3>
+            <div class="meta-row">
+                <label>
+                    <input type="checkbox" name="nw_event_bilingual" value="1" <?php checked($is_bilingual, '1'); ?>>
+                    English & Spanish Support
+                </label>
+            </div>
+            <div class="meta-row">
+                <label>English Page URL</label>
+                <input type="url" name="nw_event_english_url" value="<?php echo esc_url(get_post_meta($post->ID, 'nw_event_english_url', true)); ?>">
+            </div>
+            <div class="meta-row">
+                <label>Spanish Page URL</label>
+                <input type="url" name="nw_event_spanish_url" value="<?php echo esc_url(get_post_meta($post->ID, 'nw_event_spanish_url', true)); ?>">
+            </div>
+        </div>
+
+        <div class="meta-group">
+            <h3>Display Content</h3>
+            <div class="meta-row">
+                <label>Event Title</label>
+                <input type="text" name="nw_event_title" value="<?php echo esc_attr(get_post_meta($post->ID, 'nw_event_title', true)); ?>">
+            </div>
+            <div class="meta-row">
+                <label>Event Subtitle</label>
+                <input type="text" name="nw_event_subtitle" value="<?php echo esc_attr(get_post_meta($post->ID, 'nw_event_subtitle', true)); ?>">
+            </div>
+            <div class="meta-row">
+                <label>Background Image URL</label>
+                <input type="text" name="nw_event_bg_url" value="<?php echo esc_url(get_post_meta($post->ID, 'nw_event_bg_url', true)); ?>">
+            </div>
+        </div>
+
+        <div class="meta-group">
+            <h3>Logistics</h3>
+            <div class="meta-row">
+                <label>Date</label>
+                <input type="date" name="nw_event_date" value="<?php echo esc_attr(get_post_meta($post->ID, 'nw_event_date', true)); ?>">
+            </div>
+            <div class="meta-row">
+                <label>Time</label>
+                <input type="text" name="nw_event_time" value="<?php echo esc_attr(get_post_meta($post->ID, 'nw_event_time', true)); ?>" placeholder="e.g. 10:00 AM">
+            </div>
+            <div class="meta-row">
+                <label>Location</label>
+                <input type="text" name="nw_event_location" value="<?php echo esc_attr(get_post_meta($post->ID, 'nw_event_location', true)); ?>">
+            </div>
+        </div>
+
+        <div class="meta-group">
+            <h3>Description & Call to Action</h3>
+            <div class="meta-row">
+                <label>Description</label>
+                <?php wp_editor(get_post_meta($post->ID, 'nw_event_description', true), 'nw_event_description', ['textarea_name' => 'nw_event_description', 'media_buttons' => false, 'textarea_rows' => 5]); ?>
+            </div>
+            <div class="meta-row">
+                <label>CTA Text</label>
+                <input type="text" name="nw_event_cta_text" value="<?php echo esc_attr(get_post_meta($post->ID, 'nw_event_cta_text', true)); ?>">
+            </div>
+            <div class="meta-row">
+                <label>CTA URL</label>
+                <input type="url" name="nw_event_cta_url" value="<?php echo esc_url(get_post_meta($post->ID, 'nw_event_cta_url', true)); ?>">
+            </div>
+        </div>
+    </div>
+    <?php
+}
+
+function nw_save_event_meta($post_id) {
+    if (!isset($_POST['nw_event_meta_nonce_field']) || !wp_verify_nonce($_POST['nw_event_meta_nonce_field'], 'nw_event_meta_nonce')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+
+    $fields = [
+        'nw_event_bilingual', 'nw_event_english_url', 'nw_event_spanish_url',
+        'nw_event_title', 'nw_event_subtitle', 'nw_event_bg_url',
+        'nw_event_date', 'nw_event_time', 'nw_event_location',
+        'nw_event_description', 'nw_event_cta_text', 'nw_event_cta_url'
+    ];
+
+    foreach ($fields as $field) {
+        if (isset($_POST[$field])) {
+            update_post_meta($post_id, $field, $_POST[$field]);
+        } else {
+            delete_post_meta($post_id, $field);
+        }
+    }
+}
+add_action('save_post', 'nw_save_event_meta');
+
+
 register_nav_menus([
     'header_en' => 'English Header Slot',
     'header_es' => 'Spanish Header Slot',

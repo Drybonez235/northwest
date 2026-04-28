@@ -6,7 +6,11 @@
             <div class="flex flex-col gap-8 items-center sm:items-start">
                 <div class="site-logo">
                     {% if custom_logo_url %}
-                        <a href="{{ site.url }}">
+                    {% set home_link = (lang == 'es') 
+                             ? 'https://dev.fwbchurch.org/home/es/northwest-iglesia/' 
+                             : 'https://dev.fwbchurch.org/home/en/northwest-church/' 
+                            %}
+                        <a href="{{ home_link }}">
                             <img src="{{ custom_logo_url }}" alt="{{ theme.name }}" class="h-24 w-auto">
                         </a>
                     {% else %}
