@@ -95,7 +95,7 @@ $context['nav_events'] = Timber::get_posts([
     'order'          => 'ASC',
     'meta_query'     => [
         [
-            'key'     => 'nw_event_bilingual', // Matches the key from nw_save_event_meta
+            'key'     => 'nw_event_language', // Matches the key from nw_save_event_meta
             'value'   => $meta_value,          // Ensure this matches '1' for the toggle
             'compare' => '=',
         ],
