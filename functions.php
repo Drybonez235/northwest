@@ -440,12 +440,13 @@ function nw_render_event_meta_box($post) {
 
         <div class="meta-group">
             <h3>Language Settings</h3>
-            <div class="meta-row">
-                <label>
-                    <input type="checkbox" name="nw_event_bilingual" value="1" <?php checked($is_bilingual, '1'); ?>>
-                    English & Spanish Support
-                </label>
-            </div>
+            <div class="nw-admin-field">
+        <label>Language Setting</label>
+        <select name="nw_event_language">
+            <option value="EN" <?php selected($current_lang, 'EN'); ?>>English</option>
+            <option value="ES" <?php selected($current_lang, 'ES'); ?>>Spanish</option>
+        </select>
+    </div>
             <div class="meta-row">
                 <label>English Page URL</label>
                 <input type="url" name="nw_event_english_url" value="<?php echo esc_url(get_post_meta($post->ID, 'nw_event_english_url', true)); ?>">
@@ -509,6 +510,9 @@ function nw_render_event_meta_box($post) {
 
 function nw_save_event_meta($post_id) {
     if (!isset($_POST['nw_event_meta_nonce_field']) || !wp_verify_nonce($_POST['nw_event_meta_nonce_field'], 'nw_event_meta_nonce')) return;
+    if (isset($_POST['nw_event_language'])) {
+        update_post_meta($post_id, 'nw_event_language', $_POST['nw_event_language']);
+    }
     if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
     if (!current_user_can('edit_post', $post_id)) return;
 

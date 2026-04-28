@@ -28,6 +28,7 @@
 
     {# Desktop Navigation #}
     <nav class="hidden md:flex items-center gap-8">
+       
         {# Dynamic Events Dropdown #}
 <div class="group relative py-4">
   <button class="flex items-center gap-1 text-sm font-bold uppercase tracking-wider text-neutral-700 group-hover:text-primary-600 transition-colors cursor-pointer">
@@ -45,12 +46,7 @@
           {# Pulls the custom Event Title meta, falls back to WP Post Title #}
           {{ event.meta('nw_event_title') ?: event.title }}
         </span>
-        {# Optional: Small date indicator #}
-        {% if event.meta('nw_event_date') %}
-          <span class="block text-[10px] uppercase tracking-tighter text-neutral-400">
-            {{ event.meta('nw_event_date')|date("M j") }}
-          </span>
-        {% endif %}
+
       </a>
     {% endfor %}
     
