@@ -1,0 +1,28 @@
+{# Sticky Language Toggle #}
+{# We check for the leading underscore version used in your homepage save function #}
+{% set opposite_url = post.meta('_Opposite_Language_URL') ?: post.meta('nw_lang_opposite_url') %}
+
+{% if opposite_url %}
+<div class="fixed bottom-6 right-6 z-50">
+    <a href="{{ opposite_url }}" 
+       class="flex items-center gap-3 bg-white border border-neutral-200 shadow-xl p-2 pr-5 rounded-church hover:border-primary-500 group transition-all duration-300 animate-in fade-in slide-in-from-bottom-4">
+        
+        {# Language Indicator Circle #}
+        <div class="size-10 flex items-center justify-center rounded-full bg-neutral-900 text-white group-hover:bg-primary-500 transition-colors shadow-inner">
+            <span class="text-xs font-bold tracking-tighter">
+                {{ lang == 'en' ? 'ES' : 'EN' }}
+            </span>
+        </div>
+
+        {# Text Label #}
+        <div class="flex flex-col justify-center">
+            <span class="text-[10px] uppercase tracking-[0.2em] text-neutral-400 font-bold leading-none mb-1">
+                {{ lang == 'en' ? 'Ver en' : 'View in' }}
+            </span>
+            <span class="text-sm font-bold text-neutral-800">
+                {{ lang == 'en' ? 'Español' : 'English' }}
+            </span>
+        </div>
+    </a>
+</div>
+{% endif %}
