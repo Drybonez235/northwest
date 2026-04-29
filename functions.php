@@ -54,6 +54,9 @@ add_filter('timber/context', function( $context ) {
     // 2. Set Context Variables
     $context['lang'] = $lang_code;
     $context['menu'] = Timber::get_menu($menu_id);
+    
+    //Add the opposite URL to context
+    $context['opposite_url'] = $context['post']->meta('_nw_lang_opposite_url');
 
     // 3. Pull Filtered Ministries
     // This pulls only ministries assigned to the detected language
@@ -480,7 +483,7 @@ function nw_render_event_meta_box($post) {
     </div>
             <div class="meta-row">
                 <label>Opposite language Page URL</label>
-                <input type="url" name="nw_lang_opposite_url" value="<?php echo esc_url(get_post_meta($post->ID, 'nw_lang_opposite_url', true)); ?>">
+                <input type="url" name="_nw_lang_opposite_url" value="<?php echo esc_url(get_post_meta($post->ID, '_nw_lang_opposite_url', true)); ?>">
             </div>
         </div>
 
@@ -544,7 +547,7 @@ function nw_save_event_meta($post_id) {
     if (!current_user_can('edit_post', $post_id)) return;
 
     $fields = [
-        'nw_event_bilingual', 'nw_lang_opposite_url',
+        'nw_event_bilingual', '_nw_lang_opposite_url',
         'nw_event_title', 'nw_event_subtitle', 'nw_event_bg_url',
         'nw_event_date', 'nw_event_time', 'nw_event_location',
         'nw_event_description', 'nw_event_cta_text', 'nw_event_cta_url'
@@ -553,11 +556,8 @@ function nw_save_event_meta($post_id) {
     foreach ($fields as $field) {
         if (isset($_POST[$field])) {
             update_post_meta($post_id, $field, $_POST[$field]);
-        } else {
-            delete_post_meta($post_id, $field);
-        }
-    }
-}
+        } 
+    }}
 add_action('save_post', 'nw_save_event_meta');
 
 
