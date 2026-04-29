@@ -1,15 +1,27 @@
+{# templates/partials/language-toggle.twig #}
 {% set toggle_url = post.meta('_nw_lang_opposite_url') %}
 
 {% if toggle_url %}
-  <div class="fixed bottom-6 right-6 z-50">
-      <a href="{{ toggle_url }}" class="bg-white border border-neutral-200 shadow-church p-3 rounded-church flex items-center gap-3 hover:border-primary-500 transition-colors group">
-          <div class="size-8 rounded-full bg-neutral-900 text-white flex items-center justify-center text-xs font-bold group-hover:bg-primary-500">
-              {{ lang == 'en' ? 'ES' : 'EN' }}
-          </div>
-          <div class="flex flex-col">
-              <span class="text-[10px] uppercase font-bold text-neutral-400">{{ lang == 'en' ? 'Ver en' : 'View in' }}</span>
-              <span class="text-sm font-bold text-neutral-800">{{ lang == 'en' ? 'Español' : 'English' }}</span>
-          </div>
-      </a>
-  </div>
+<div class="fixed bottom-6 right-6 z-50">
+    <a href="{{ toggle_url }}" 
+       class="flex items-center gap-3 bg-white border border-neutral-200 shadow-xl p-2 pr-5 rounded-church hover:border-primary-500 group transition-all duration-300">
+        
+        {# Language Circle - Northwest Crimson on hover #}
+        <div class="size-10 flex items-center justify-center rounded-full bg-neutral-900 text-white group-hover:bg-primary-500 transition-colors shadow-inner">
+            <span class="text-xs font-bold">
+                {{ lang == 'en' ? 'ES' : 'EN' }}
+            </span>
+        </div>
+
+        {# Text Labels #}
+        <div class="flex flex-col">
+            <span class="text-[10px] uppercase tracking-widest text-neutral-400 font-bold leading-none mb-1">
+                {{ lang == 'en' ? 'Ver en' : 'View in' }}
+            </span>
+            <span class="text-sm font-bold text-neutral-800">
+                {{ lang == 'en' ? 'Español' : 'English' }}
+            </span>
+        </div>
+    </a>
+</div>
 {% endif %}

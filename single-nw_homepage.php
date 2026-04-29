@@ -17,4 +17,5 @@ if ( ! $post ) {
 
 $context['post'] = $post;
 
+
 Timber::render( 'single-home.twig', $context );

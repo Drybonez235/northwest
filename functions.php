@@ -55,8 +55,7 @@ add_filter('timber/context', function( $context ) {
     $context['lang'] = $lang_code;
     $context['menu'] = Timber::get_menu($menu_id);
     
-    //Add the opposite URL to context
-    $context['opposite_url'] = $context['post']->meta('_nw_lang_opposite_url');
+   
 
     // 3. Pull Filtered Ministries
     // This pulls only ministries assigned to the detected language
@@ -410,7 +409,7 @@ function nw_save_home_meta($post_id) {
     if (isset($_POST['Language_Setting'])) {
         update_post_meta($post_id, '_Language_Setting', sanitize_text_field($_POST['Language_Setting']));
     }
-    if (isset($_POST['Opposite_Language_URL'])) {
+    if (isset($_POST['nw_lang_opposite_url'])) {
         update_post_meta($post_id, '_nw_lang_opposite_url', esc_url_raw($_POST['nw_lang_opposite_url']));
     }
 
