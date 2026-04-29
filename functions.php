@@ -54,6 +54,13 @@ add_filter('timber/context', function( $context ) {
     // 2. Set Context Variables
     $context['lang'] = $lang_code;
     $context['menu'] = Timber::get_menu($menu_id);
+
+    $post = Timber::get_post();
+    if ( $post ) {
+        // Since we standardized the key to _nw_lang_opposite_url
+        // Timber can access it via the property name (without underscore)
+        $context['opposite_url'] = $post->meta('_nw_lang_opposite_url');
+    }
     
    
 
@@ -381,7 +388,7 @@ function nw_home_meta_box_callback($post) {
     // Render Opposite URL Input
     echo '<div>';
     echo '<label style="font-weight:bold; display:block; margin-bottom:5px;">Opposite Language URL</label>';
-    echo '<input type="url" name="Opposite_Language_URL" value="' . esc_url($opposite_url) . '" style="width:100%" placeholder="https://nwcommunity.church/es/..." />';
+    echo '<input type="url" name="nw_lang_opposite_url" value="' . esc_url($opposite_url) . '" style="width:100%" />';
     echo '</div>';
 
     echo '</div>';

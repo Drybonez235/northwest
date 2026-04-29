@@ -1,14 +1,15 @@
 {# templates/partials/language-toggle.twig #}
 {% set toggle_url = post.meta('_nw_lang_opposite_url') %}
 
-{% if toggle_url %}
+{% if toggle_url is not empty %}
 <div class="fixed bottom-6 right-6 z-50">
     <a href="{{ toggle_url }}" 
+       aria-label="{{ lang == 'en' ? 'Cambiar a Español' : 'Switch to English' }}"
        class="flex items-center gap-3 bg-white border border-neutral-200 shadow-xl p-2 pr-5 rounded-church hover:border-primary-500 group transition-all duration-300">
         
-        {# Language Circle - Northwest Crimson on hover #}
+        {# Language Circle #}
         <div class="size-10 flex items-center justify-center rounded-full bg-neutral-900 text-white group-hover:bg-primary-500 transition-colors shadow-inner">
-            <span class="text-xs font-bold">
+            <span class="text-xs font-bold uppercase">
                 {{ lang == 'en' ? 'ES' : 'EN' }}
             </span>
         </div>
