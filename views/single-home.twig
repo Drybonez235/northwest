@@ -28,14 +28,12 @@
 
     {# The Mission Statement Text: Large and prominent #}
     {# Using text-2xl (24px) with a specific line height modifier /8 as per v4 rules #}
-    <div class="text-4xl/8 font-serif italic text-neutral-800">
+    <div class="text-4xl/8 font-serif italic text-neutral-800 mb-4">
       {{ post.meta('_Church_Mission_Statement_Text') }}
     </div>
-     <span class="block text-xs font-display font-bold text-primary-600 uppercase tracking-widest mb-4">
+     <span class="block text-xs font-display font-bold text-primary-600 uppercase tracking-widest">
       {{ post.meta('_Church_Mission_Statement_Heading') }}
     </span>
-    {# Small decorative accent using Gold-500 from style.css #}
-    <div class="mt-8 size-1 bg-gold-500 mx-auto rounded-full"></div>
     
   </div>
 </section>
@@ -59,7 +57,7 @@
         </div>
 
         {# Sunday Worship - Featured with Primary Brand Color #}
-        <div class="bg-primary-600 p-8 rounded-church shadow-sm transform md:-translate-y-4">
+        <div class="bg-primary-600 p-8 rounded-church shadow-sm">
           <h3 class="text-xl font-bold text-white mb-2">{{ post.meta('_Service_Sunday_Worship_Header') }}</h3>
           <p class="text-sm font-semibold uppercase tracking-wider mb-4">{{ post.meta('_Service_Sunday_Worship_Header_Time') }}</p>
           <p class="text-sm/6">{{ post.meta('_Service_Sunday_Worship_Header_Text') }}</p>
@@ -76,7 +74,7 @@
   </section>
 
   {# --- About Us Section --- #}
-  <section class="grid grid-cols-1 lg:grid-cols-2 mt-8">
+  <section class="grid grid-cols-1 lg:grid-cols-2 mt-16">
     <div class="min-h-80 bg-neutral-200">
       <img src="{{ post.meta('_Church_About_Us_Background_Image_URL') }}" class="size-full object-cover" alt="About Northwest">
     </div>

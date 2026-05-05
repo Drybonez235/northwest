@@ -371,7 +371,10 @@ function nw_home_meta_box_callback($post) {
         'Church_Ministries_Header',
         'Church_Ministry_Header_1', 'Church_Ministry_URL_1', 'Church_Ministry_Background_Image_URL_1',
         'Church_Ministry_Header_2', 'Church_Ministry_URL_2', 'Church_Ministry_Background_Image_URL_2',
-        'Church_Ministry_Header_3', 'Church_Ministry_URL_3', 'Church_Ministry_Background_Image_URL_3'
+        'Church_Ministry_Header_3', 'Church_Ministry_URL_3', 'Church_Ministry_Background_Image_URL_3',
+        // New Video/Sermon Fields
+        'YouTube_Heading', 'YouTube_Livestream_URL', 
+        'Last_Weeks_Sermon_Heading', 'Last_Weeks_Sermon_URL'
     ];
 
     echo '<div style="display: grid; gap: 15px; padding: 10px; background: #f0f0f0; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ccc;">';
