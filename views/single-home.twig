@@ -116,5 +116,57 @@
     </div>
   </section>
 
+  {# Video Highlights Section #}
+<section class="bg-neutral-50 py-16 lg:py-24">
+    <div class="container-3xl mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-18">
+            
+            {# Left Column: YouTube Livestream #}
+            <div class="flex flex-col gap-6">
+                <h2 class="font-display text-3xl/tight font-bold text-primary-600">
+                    {{ post.meta('_YouTube_Heading') ?: 'Join Us Live' }}
+                </h2>
+                
+                {% if post.meta('_YouTube_Livestream_URL') %}
+                    <div class="aspect-video w-full overflow-hidden shadow-sm rounded-church">
+                        <iframe 
+                            src="{{ post.meta('_YouTube_Livestream_URL')|replace({'watch?v=': 'embed/'}) }}" 
+                            class="size-full border-hidden"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                {% endif %}
+                
+                <a href="{{ post.meta('_YouTube_Livestream_URL') }}" 
+                   class="inline-flex items-center justify-center px-6 py-3 bg-primary-500 text-white font-bold rounded-church hover:bg-primary-600 transition-colors">
+                    Watch on YouTube
+                </a>
+            </div>
+
+            {# Right Column: Last Week's Sermon #}
+            <div class="flex flex-col gap-6">
+                <h2 class="font-display text-3xl/tight font-bold text-neutral-800">
+                    {{ post.meta('_Last_Weeks_Sermon_Heading') ?: 'Latest Message' }}
+                </h2>
+
+                {% if post.meta('_Last_Weeks_Sermon_URL') %}
+                    <div class="aspect-video w-full overflow-hidden shadow-sm rounded-church bg-neutral-200">
+                        <iframe 
+                            src="{{ post.meta('_Last_Weeks_Sermon_URL')|replace({'watch?v=': 'embed/'}) }}" 
+                            class="size-full border-hidden"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                {% endif %}
+
+                <p class="text-neutral-600 text-base/7">
+                    Missed us last Sunday? Catch up on our most recent teaching from Northwest Community Church.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
 </main>
 {% endblock %}
