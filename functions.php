@@ -425,7 +425,8 @@ function nw_save_home_meta($post_id) {
 
     // Handle your prefixed fields
     foreach ($_POST as $key => $value) {
-        if (strpos($key, 'Church_') === 0 || strpos($key, 'Service_') === 0) {
+        if (strpos($key, 'Church_') === 0 || strpos($key, 'Service_') === 0 || strpos($key, 'YouTube_') === 0 || 
+            strpos($key, 'Last_Weeks_') === 0) {
             update_post_meta($post_id, '_' . $key, sanitize_text_field($value));
         }
     }
