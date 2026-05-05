@@ -1,0 +1,57 @@
+<!-- Container: Center aligned and using min-h-dvh for mobile safari stability -->
+<div class="min-h-dvh bg-neutral-50 py-12 px-4 font-sans">
+    <div class="max-w-3xl mx-auto text-center">
+        
+        <header class="mb-16">
+            <h1 class="font-display text-4xl/tight font-bold text-neutral-900 mb-4">Sermon Archive</h1>
+            <div class="size-1.5 bg-gold-500 mx-auto rounded-full"></div>
+        </header>
+
+        <!-- MONTH SECTION START -->
+        <!-- Repeat this section for every new month -->
+        <section class="mb-20">
+            <h2 class="font-display text-2xl/6 font-bold text-primary-600 uppercase tracking-widest mb-10 border-b border-neutral-200 pb-4">
+               <!-- {# TECH TEAM: INPUT MONTH AND YEAR (e.g., MAY 2026) #}-->
+                May 2026
+            </h2>
+
+            <!-- List of Sermons -->
+            <div class="flex flex-col gap-12">
+                
+                <!-- INDIVIDUAL SERMON START -->
+                <article class="flex flex-col items-center gap-2">
+                    <time class="text-sm font-bold text-neutral-400 uppercase tracking-wider">
+                       <!-- {# TECH TEAM: INPUT DATE (e.g., May 24, 2026) }-->
+                        May 24, 2026
+                    </time>
+                    
+                    <h3 class="font-display text-2xl/8 font-bold text-neutral-800 hover:text-primary-500 transition-colors">
+                        <a href="#">
+                          <!--  {# TECH TEAM: INPUT SERMON TITLE #}-->
+                            The Strength of Weakness
+                        </a>
+                    </h3>
+
+                    <div class="flex items-center gap-3 text-base/6 text-neutral-600">
+                        <span class="italic text-neutral-500">
+                          <!--  {# TECH TEAM: INPUT BIBLE VERSE #-->}
+                            2 Corinthians 12:1-10
+                        </span>
+                        <span class="text-neutral-300">•</span>
+                        <span class="font-medium">
+                          <!--  {# TECH TEAM: INPUT PASTOR NAME #-->}
+                            Pastor John Smith
+                        </span>
+                    </div>
+                </article>
+                <!-- INDIVIDUAL SERMON END -->
+
+                <!-- Divider for the next sermon in the same month -->
+                <hr class="w-12 border-neutral-200 mx-auto">
+
+            </div>
+        </section>
+        <!-- MONTH SECTION END -->
+
+    </div>
+</div>

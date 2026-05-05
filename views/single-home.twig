@@ -22,17 +22,26 @@
   </section>
 
   {# --- Mission Statement --- #}
-  {# Using --spacing-18 from style.css #}
-  <section class="py-18 bg-neutral-50 text-center">
-    <div class="container mx-auto px-4 max-w-3xl">
-      <h2 class="text-3xl font-display font-bold text-primary-600 mb-6">
-        {{ post.meta('_Church_Mission_Statement_Heading') }}
-      </h2>
-      <div class="text-base/7 text-neutral-700">
-        {{ post.meta('_Church_Mission_Statement_Text') }}
-      </div>
+<section class="py-18 bg-neutral-50 text-center">
+  {# Reduced max-width to max-w-xl to ensure the statement isn't too long #}
+  <div class="container mx-auto px-4 max-w-xl">
+    
+    {# The Label: Small, uppercase, and subtle #}
+    <span class="block text-xs font-display font-bold text-primary-600 uppercase tracking-widest mb-4">
+      {{ post.meta('_Church_Mission_Statement_Heading') }}
+    </span>
+
+    {# The Mission Statement Text: Large and prominent #}
+    {# Using text-2xl (24px) with a specific line height modifier /8 as per v4 rules #}
+    <div class="text-2xl/8 font-serif italic text-neutral-800">
+      {{ post.meta('_Church_Mission_Statement_Text') }}
     </div>
-  </section>
+
+    {# Small decorative accent using Gold-500 from style.css #}
+    <div class="mt-8 size-1 bg-gold-500 mx-auto rounded-full"></div>
+    
+  </div>
+</section>
 
   {# --- Services Section --- #}
   <section class="relative py-22 text-white bg-neutral-800">
