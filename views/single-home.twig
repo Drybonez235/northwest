@@ -118,7 +118,7 @@
 
  {# Video & Audio Highlights Section #}
 <section class="bg-neutral-50 py-16 lg:py-24">
-    <div class="container-3xl mx-auto px-4">
+    <div class="container-3xl mx-auto px-4 max-w-2xl">
         <div class="max-w-3xl mx-auto text-center flex flex-col gap-8">
             
             {# Section Introduction #}
@@ -127,7 +127,7 @@
                     {{ post.meta('_YouTube_Heading') ?: 'Join Us Live' }}
                 </h2>
                 <p class="text-neutral-600 text-base/7">
-                    Missed us last Sunday? Catch up on our most recent teaching or join our upcoming livestream.
+                    {{post.meta('_YouTube_Sub_Heading')}}
                 </p>
             </div>
 
@@ -140,7 +140,7 @@
                        class="inline-flex items-center justify-center px-8 py-4 bg-primary-500 text-white font-bold rounded-church hover:bg-primary-600 transition-colors shadow-sm w-full sm:w-auto"
                        target="_blank" 
                        rel="noopener">
-                        Watch on YouTube
+                       {{post.meta('_YouTube_Livestream_CTA') }}
                     </a>
                 {% endif %}
 

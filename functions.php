@@ -373,7 +373,7 @@ function nw_home_meta_box_callback($post) {
         'Church_Ministry_Header_2', 'Church_Ministry_URL_2', 'Church_Ministry_Background_Image_URL_2',
         'Church_Ministry_Header_3', 'Church_Ministry_URL_3', 'Church_Ministry_Background_Image_URL_3',
         // New Video/Sermon Fields
-        'YouTube_Heading', 'YouTube_Livestream_URL', 
+        'YouTube_Heading', 'YouTube_Sub_Heading', 'YouTube_Livestream_URL', 'YouTube_Livestream_CTA',
         'Last_Weeks_Sermon_Heading', 'Last_Weeks_Sermon_URL'
     ];
 
