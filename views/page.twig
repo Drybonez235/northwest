@@ -1,3 +1,17 @@
 {% extends "base.twig" %}
+
 {% block content %}
+<main id="primary" class="min-h-dvh bg-white"> {# min-h-dvh is preferred over min-h-screen #}
+    
+    {# If you want the WordPress content to respect your site's max-width #}
+    <article class="container-3xl mx-auto px-4 py-12"> {# container-3xl from style.css[cite: 2] #}
+        
+        <div class="prose max-w-none">
+            {# This tag renders your Custom HTML blocks and Gutenberg content #}
+            {{ post.content }}
+        </div>
+
+    </article>
+
+</main>
 {% endblock %}
