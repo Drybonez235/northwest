@@ -97,4 +97,99 @@
       {% endfor %}
     </nav>
   </div>
+
+  {# Hamburger Button #}
+    <button 
+      @click="mobileMenuOpen = true; activePanel = 'main'" 
+      class="md:hidden p-2 text-neutral-700"
+      aria-label="Open Menu"
+    >
+      <svg class="size-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M4 6h16M4 12h16M4 18h16" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  {# Mobile Full-Screen Overlay #}
+  <div 
+    x-show="mobileMenuOpen" 
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="translate-x-full"
+    x-transition:enter-end="translate-x-0"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="translate-x-0"
+    x-transition:leave-end="translate-x-full"
+    class="fixed inset-0 z-100 bg-white min-h-dvh flex flex-col md:hidden"
+  >
+    {# Mobile Header (Back/Close) #}
+    <div class="flex items-center justify-between px-6 h-20 border-b border-neutral-100">
+      <template x-if="activePanel !== 'main'">
+        <button @click="activePanel = 'main'" class="flex items-center gap-2 text-primary-600 font-bold uppercase tracking-wider text-sm">
+          <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M15 19l-7-7 7-7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          {{ lang == 'es' ? 'Volver' : 'Back' }}
+        </button>
+      </template>
+      <div x-show="activePanel === 'main'">
+        <span class="font-display font-bold text-neutral-900 uppercase tracking-widest text-sm">Menu</span>
+      </div>
+      
+      <button @click="mobileMenuOpen = false" class="p-2 text-neutral-500">
+        <svg class="size-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    {# Panels Container #}
+    <div class="flex-1 overflow-y-auto px-6 py-8">
+      
+      {# MAIN PANEL #}
+      <div x-show="activePanel === 'main'" class="flex flex-col gap-6">
+        <button @click="activePanel = 'events'" class="flex items-center justify-between w-full text-2xl font-bold text-neutral-800">
+          {{ lang == 'es' ? 'Eventos' : 'Events' }}
+          <svg class="size-6 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        
+        <button @click="activePanel = 'ministries'" class="flex items-center justify-between w-full text-2xl font-bold text-neutral-800">
+          {{ lang == 'es' ? 'Ministerios' : 'Ministries' }}
+          <svg class="size-6 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <button @click="activePanel = 'about'" class="flex items-center justify-between w-full text-2xl font-bold text-neutral-800">
+          {{ lang == 'es' ? 'Sobre Nosotros' : 'About Us' }}
+          <svg class="size-6 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      {# EVENTS PANEL #}
+      <div x-show="activePanel === 'events'" class="flex flex-col gap-4">
+        <h3 class="text-xs font-bold uppercase tracking-widest text-primary-500 mb-2">{{ lang == 'es' ? 'Próximos Eventos' : 'Upcoming Events' }}</h3>
+        {% for event in nav_events %}
+          <a href="{{ event.link }}" class="block py-4 border-b border-neutral-50">
+            <span class="text-xl font-bold text-neutral-800">{{ event.meta('nw_event_title') ?: event.title }}</span>
+          </a>
+        {% endfor %}
+      </div>
+
+      {# MINISTRIES PANEL #}
+      <div x-show="activePanel === 'ministries'" class="flex flex-col gap-4">
+        <h3 class="text-xs font-bold uppercase tracking-widest text-primary-500 mb-2">{{ lang == 'es' ? 'Nuestros Ministerios' : 'Our Ministries' }}</h3>
+        {% for ministry in nav_ministries %}
+          <a href="{{ ministry.link }}" class="block py-4 border-b border-neutral-50">
+            <span class="text-xl font-bold text-neutral-800">{{ ministry.meta('_ministry_title_name') ?: ministry.title }}</span>
+          </a>
+        {% endfor %}
+      </div>
+
+      {# ABOUT PANEL #}
+      <div x-show="activePanel === 'about'" class="flex flex-col gap-4">
+        <h3 class="text-xs font-bold uppercase tracking-widest text-primary-500 mb-2">{{ lang == 'es' ? 'Conócenos' : 'Get to Know Us' }}</h3>
+        {% for post in nav_posts %}
+          <a href="{{ post.link }}" class="block py-4 border-b border-neutral-50">
+            <span class="text-xl font-bold text-neutral-800">{{ post.title }}</span>
+          </a>
+        {% endfor %}
+      </div>
 </header>
