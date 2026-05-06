@@ -575,16 +575,3 @@ register_nav_menus([
     'header_en' => 'English Header Slot',
     'header_es' => 'Spanish Header Slot',
 ]);
-
-add_filter( 'get_pages', function( $pages, $args ) {
-    // Check if we are in the admin and on the Reading settings page
-    if ( is_admin() && isset($_GET['page']) && $_GET['page'] == 'reading' ) {
-        $home_posts = get_posts([
-            'post_type' => 'Home',
-            'posts_per_page' => -1
-        ]);
-        // Merge the 'home' CPT entries into the list of pages
-        $pages = array_merge( $pages, $home_posts );
-    }
-    return $pages;
-}, 10, 2 );
