@@ -176,3 +176,45 @@
     </div>
   </div>
 </header>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const menu = document.getElementById('mobile-menu');
+  const backBtn = document.getElementById('menu-back');
+  const label = document.getElementById('menu-label');
+  const panels = document.querySelectorAll('.menu-panel');
+
+  function showPanel(panelId) {
+    panels.forEach(p => p.classList.add('hidden'));
+    panels.forEach(p => p.classList.remove('flex'));
+    const target = document.getElementById(`panel-${panelId}`);
+    target.classList.remove('hidden');
+    target.classList.add('flex');
+
+    if (panelId === 'main') {
+      backBtn.classList.add('hidden');
+      label.classList.remove('hidden');
+    } else {
+      backBtn.classList.remove('hidden');
+      label.classList.add('hidden');
+    }
+  }
+
+  document.getElementById('open-menu').onclick = () => {
+    menu.classList.remove('hidden');
+    menu.classList.add('flex');
+    showPanel('main');
+  };
+
+  document.getElementById('close-menu').onclick = () => {
+    menu.classList.add('hidden');
+    menu.classList.remove('flex');
+  };
+
+  document.querySelectorAll('.panel-trigger').forEach(btn => {
+    btn.onclick = () => showPanel(btn.dataset.target);
+  });
+
+  backBtn.onclick = () => showPanel('main');
+});
+</script>
