@@ -1,175 +1,201 @@
 <header class="bg-white border-b border-neutral-100 font-sans sticky top-0 z-50">
   <div class="container mx-auto px-4 flex items-center justify-between h-20">
-    
-     {# Logo and Church Name Wrapper #}
-      <div class="flex items-center gap-4">
-        <div class="site-logo">
-    {# Define the home link based on the detected language #}
-    {% set home_link = (lang == 'es') 
-        ? 'https://dev.fwbchurch.org/home/es/northwest-iglesia/' 
-        : 'https://dev.fwbchurch.org/home/en/northwest-church/' 
-    %}
 
-    {% if custom_logo_url %}
+    {# Logo and Church Name Wrapper #}
+    <div class="flex items-center gap-4">
+      <div class="site-logo">
+        {# Define the home link based on the detected language #}
+        {% set home_link = (lang == 'es')
+        ? 'https://dev.fwbchurch.org/home/es/northwest-iglesia/'
+        : 'https://dev.fwbchurch.org/home/en/northwest-church/'
+        %}
+
+        {% if custom_logo_url %}
         <a href="{{ home_link }}">
-            <img src="{{ custom_logo_url }}" alt="{{ theme.name }}" class="h-12 w-auto">
+          <img src="{{ custom_logo_url }}" alt="{{ theme.name }}" class="h-12 w-auto">
         </a>
-    {% else %}
+        {% else %}
         <h1 class="text-xl/7 font-display font-bold text-neutral-900">
-            <a href="{{ home_link }}">{{ theme.name }}</a>
+          <a href="{{ home_link }}">{{ theme.name }}</a>
         </h1>
-    {% endif %}
-</div>
+        {% endif %}
+      </div>
 
-        <h2 class="text-lg/6 font-semibold text-gray-800">
-            {{ theme.name }}
-        </h2>
+      <h2 class="text-lg/6 font-semibold text-gray-800">
+        {{ theme.name }}
+      </h2>
     </div>
 
     {# Desktop Navigation #}
     <nav class="hidden md:flex items-center gap-8">
-       
-        {# Dynamic Events Dropdown #}
-<div class="group relative py-4">
-  <button class="flex items-center gap-1 text-sm font-bold uppercase tracking-wider text-neutral-700 group-hover:text-primary-600 transition-colors cursor-pointer">
-    {{ lang == 'es' ? 'Eventos' : 'Events' }}
-    <svg class="size-4 opacity-40 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </button>
 
-  {# Dropdown Menu #}
-  <div class="absolute top-full right-0 w-64 bg-white shadow-sm border border-neutral-100 rounded-church py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-    {% for event in nav_events %}
-      <a href="{{ event.link }}" class="block px-6 py-2.5 hover:bg-neutral-50 group/item">
-        <span class="block text-sm font-bold text-neutral-800 group-hover/item:text-primary-600">
-          {# Pulls the custom Event Title meta, falls back to WP Post Title #}
-          {{ event.meta('nw_event_title') ?: event.title }}
-        </span>
-
-      </a>
-    {% endfor %}
-    
-    {% if nav_events is empty %}
-      <div class="px-6 py-2.5 text-xs italic text-neutral-400">
-        {{ lang == 'es' ? 'No hay eventos' : 'No events found' }}
-      </div>
-    {% endif %}
-  </div>
-</div>
-      {# Dynamic Ministries Dropdown #}
+      {# Dynamic Events Dropdown #}
       <div class="group relative py-4">
-        <button class="flex items-center gap-1 text-sm font-bold uppercase tracking-wider text-neutral-700 group-hover:text-primary-600 transition-colors cursor-pointer">
-          {{ lang == 'es' ? 'Ministerios' : 'Ministries' }}
-          <svg class="size-4 opacity-40 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button
+          class="flex items-center gap-1 text-sm font-bold uppercase tracking-wider text-neutral-700 group-hover:text-primary-600 transition-colors cursor-pointer">
+          {{ lang == 'es' ? 'Eventos' : 'Events' }}
+          <svg class="size-4 opacity-40 group-hover:rotate-180 transition-transform duration-300" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
         </button>
 
         {# Dropdown Menu #}
-        <div class="absolute top-full right-0 w-64 bg-white shadow-sm border border-neutral-100 rounded-church py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-          {% for ministry in nav_ministries %}
-            <a href="{{ ministry.link }}" class="block px-6 py-2.5 hover:bg-neutral-50 group/item">
-              <span class="block text-sm font-bold text-neutral-800 group-hover/item:text-primary-600">
-                {# Uses Title Name meta, falls back to Post Title #}
-                {{ ministry.meta('_ministry_title_name') ?: ministry.title }}
-              </span>
-            </a>
+        <div
+          class="absolute top-full right-0 w-64 bg-white shadow-sm border border-neutral-100 rounded-church py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+          {% for event in nav_events %}
+          <a href="{{ event.link }}" class="block px-6 py-2.5 hover:bg-neutral-50 group/item">
+            <span class="block text-sm font-bold text-neutral-800 group-hover/item:text-primary-600">
+              {# Pulls the custom Event Title meta, falls back to WP Post Title #}
+              {{ event.meta('nw_event_title') ?: event.title }}
+            </span>
+
+          </a>
           {% endfor %}
-          
+
+          {% if nav_events is empty %}
+          <div class="px-6 py-2.5 text-xs italic text-neutral-400">
+            {{ lang == 'es' ? 'No hay eventos' : 'No events found' }}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {# Dynamic Ministries Dropdown #}
+      <div class="group relative py-4">
+        <button
+          class="flex items-center gap-1 text-sm font-bold uppercase tracking-wider text-neutral-700 group-hover:text-primary-600 transition-colors cursor-pointer">
+          {{ lang == 'es' ? 'Ministerios' : 'Ministries' }}
+          <svg class="size-4 opacity-40 group-hover:rotate-180 transition-transform duration-300" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+
+        {# Dropdown Menu #}
+        <div
+          class="absolute top-full right-0 w-64 bg-white shadow-sm border border-neutral-100 rounded-church py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+          {% for ministry in nav_ministries %}
+          <a href="{{ ministry.link }}" class="block px-6 py-2.5 hover:bg-neutral-50 group/item">
+            <span class="block text-sm font-bold text-neutral-800 group-hover/item:text-primary-600">
+              {# Uses Title Name meta, falls back to Post Title #}
+              {{ ministry.meta('_ministry_title_name') ?: ministry.title }}
+            </span>
+          </a>
+          {% endfor %}
+
         </div>
       </div>
       {# Regular Posts Dropdown #}
-  <div class="group relative flex items-center h-full">
-    <button class="flex items-center gap-1 text-sm font-bold uppercase tracking-wider text-neutral-700 group-hover:text-primary-600 transition-colors cursor-pointer">
-      {{ lang == 'es' ? 'Sobre Nosotros' : 'About Us' }}
-      <svg class="size-4 opacity-40 group-hover:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
+      <div class="group relative flex items-center h-full">
+        <button
+          class="flex items-center gap-1 text-sm font-bold uppercase tracking-wider text-neutral-700 group-hover:text-primary-600 transition-colors cursor-pointer">
+          {{ lang == 'es' ? 'Sobre Nosotros' : 'About Us' }}
+          <svg class="size-4 opacity-40 group-hover:rotate-180 transition-transform duration-300" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M19 9l-7 7-7-7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
 
-    {# Dropdown Menu - Aligned Right to stay on screen #}
-    <div class="absolute top-full right-0 w-72 bg-white shadow-md border border-neutral-100 rounded-church py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-">
-      {% for post in nav_posts %}
-        <a href="{{ post.link }}" class="block px-6 py-3 hover:bg-neutral-50 group/item transition-colors">
-          <span class="block text-sm/5 font-bold text-neutral-800 group-hover/item:text-primary-600">
-            {{ post.title }}
-          </span>
-        </a>
-      {% endfor %}
+        {# Dropdown Menu - Aligned Right to stay on screen #}
+        <div
+          class="absolute top-full right-0 w-72 bg-white shadow-md border border-neutral-100 rounded-church py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-">
+          {% for post in nav_posts %}
+          <a href="{{ post.link }}" class="block px-6 py-3 hover:bg-neutral-50 group/item transition-colors">
+            <span class="block text-sm/5 font-bold text-neutral-800 group-hover/item:text-primary-600">
+              {{ post.title }}
+            </span>
+          </a>
+          {% endfor %}
     </nav>
-  </div>
+  
 
-  {# Hamburger Button #}
+    {# Hamburger Button #}
     <button id="open-menu" class="md:hidden p-2 text-neutral-700 cursor-pointer">
       <svg class="size-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path d="M4 6h16M4 12h16M4 18h16" stroke-width="2" stroke-linecap="round"/>
+        <path d="M4 6h16M4 12h16M4 18h16" stroke-width="2" stroke-linecap="round" />
       </svg>
     </button>
   </div>
 
   {# MOBILE OVERLAY #}
   <div id="mobile-menu" class="hidden fixed inset-0 z-100 bg-white min-h-dvh flex-col md:hidden">
-    
+
     {# Mobile Header #}
     <div class="flex items-center justify-between px-6 h-20 border-b border-neutral-100">
       <div class="flex items-center min-w-24">
-        <button id="menu-back" class="hidden flex items-center gap-2 text-primary-500 font-bold uppercase tracking-wider text-sm cursor-pointer">
+        <button id="menu-back"
+          class="hidden flex items-center gap-2 text-primary-500 font-bold uppercase tracking-wider text-sm cursor-pointer">
           <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path d="M15 19l-7-7 7-7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M15 19l-7-7 7-7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
           {{ lang == 'es' ? 'Volver' : 'Back' }}
         </button>
-        <span id="menu-label" class="font-display font-bold text-neutral-900 uppercase tracking-widest text-sm">Menu</span>
+        <span id="menu-label"
+          class="font-display font-bold text-neutral-900 uppercase tracking-widest text-sm">Menu</span>
       </div>
-      
+
       <button id="close-menu" class="p-2 text-neutral-400 hover:text-neutral-900 cursor-pointer">
         <svg class="size-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round"/>
+          <path d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round" />
         </svg>
       </button>
     </div>
 
     {# Scrollable Content Area #}
     <div class="flex-1 overflow-y-auto px-6 py-8">
-      
+
       {# MAIN PANEL #}
       <div id="panel-main" class="menu-panel flex flex-col gap-2">
-        <button data-target="events" class="panel-trigger flex items-center justify-between w-full py-4 text-2xl font-display font-bold text-neutral-800 border-b border-neutral-50 cursor-pointer">
+        <button data-target="events"
+          class="panel-trigger flex items-center justify-between w-full py-4 text-2xl font-display font-bold text-neutral-800 border-b border-neutral-50 cursor-pointer">
           {{ lang == 'es' ? 'Eventos' : 'Events' }}
-          <svg class="size-6 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="size-6 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
         </button>
-        <button data-target="ministries" class="panel-trigger flex items-center justify-between w-full py-4 text-2xl font-display font-bold text-neutral-800 border-b border-neutral-50 cursor-pointer">
+        <button data-target="ministries"
+          class="panel-trigger flex items-center justify-between w-full py-4 text-2xl font-display font-bold text-neutral-800 border-b border-neutral-50 cursor-pointer">
           {{ lang == 'es' ? 'Ministerios' : 'Ministries' }}
-          <svg class="size-6 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="size-6 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
         </button>
-        <button data-target="about" class="panel-trigger flex items-center justify-between w-full py-4 text-2xl font-display font-bold text-neutral-800 border-b border-neutral-50 cursor-pointer">
+        <button data-target="about"
+          class="panel-trigger flex items-center justify-between w-full py-4 text-2xl font-display font-bold text-neutral-800 border-b border-neutral-50 cursor-pointer">
           {{ lang == 'es' ? 'Sobre Nosotros' : 'About Us' }}
-          <svg class="size-6 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg class="size-6 text-neutral-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
         </button>
       </div>
 
       {# SUB-PANELS (Hidden by default) #}
       <div id="panel-events" class="menu-panel hidden flex-col gap-4">
-        <h3 class="text-xs font-bold uppercase tracking-widest text-primary-500 mb-2">{{ lang == 'es' ? 'Próximos Eventos' : 'Upcoming Events' }}</h3>
+        <h3 class="text-xs font-bold uppercase tracking-widest text-primary-500 mb-2">{{ lang == 'es' ? 'Próximos
+          Eventos' : 'Upcoming Events' }}</h3>
         {% for event in nav_events %}
-          <a href="{{ event.link }}" class="block py-4 border-b border-neutral-50 text-xl font-bold text-neutral-800">
-            {{ event.meta('nw_event_title') ?: event.title }}
-          </a>
+        <a href="{{ event.link }}" class="block py-4 border-b border-neutral-50 text-xl font-bold text-neutral-800">
+          {{ event.meta('nw_event_title') ?: event.title }}
+        </a>
         {% endfor %}
       </div>
 
       <div id="panel-ministries" class="menu-panel hidden flex-col gap-4">
-        <h3 class="text-xs font-bold uppercase tracking-widest text-primary-500 mb-2">{{ lang == 'es' ? 'Nuestros Ministerios' : 'Our Ministries' }}</h3>
+        <h3 class="text-xs font-bold uppercase tracking-widest text-primary-500 mb-2">{{ lang == 'es' ? 'Nuestros
+          Ministerios' : 'Our Ministries' }}</h3>
         {% for ministry in nav_ministries %}
-          <a href="{{ ministry.link }}" class="block py-4 border-b border-neutral-50 text-xl font-bold text-neutral-800">
-            {{ ministry.meta('_ministry_title_name') ?: ministry.title }}
-          </a>
+        <a href="{{ ministry.link }}" class="block py-4 border-b border-neutral-50 text-xl font-bold text-neutral-800">
+          {{ ministry.meta('_ministry_title_name') ?: ministry.title }}
+        </a>
         {% endfor %}
       </div>
 
       <div id="panel-about" class="menu-panel hidden flex-col gap-4">
-        <h3 class="text-xs font-bold uppercase tracking-widest text-primary-500 mb-2">{{ lang == 'es' ? 'Conócenos' : 'Get to Know Us' }}</h3>
+        <h3 class="text-xs font-bold uppercase tracking-widest text-primary-500 mb-2">{{ lang == 'es' ? 'Conócenos' :
+          'Get to Know Us' }}</h3>
         {% for post in nav_posts %}
-          <a href="{{ post.link }}" class="block py-4 border-b border-neutral-50 text-xl font-bold text-neutral-800">{{ post.title }}</a>
+        <a href="{{ post.link }}" class="block py-4 border-b border-neutral-50 text-xl font-bold text-neutral-800">{{
+          post.title }}</a>
         {% endfor %}
       </div>
 
@@ -178,43 +204,43 @@
 </header>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const menu = document.getElementById('mobile-menu');
-  const backBtn = document.getElementById('menu-back');
-  const label = document.getElementById('menu-label');
-  const panels = document.querySelectorAll('.menu-panel');
+  document.addEventListener('DOMContentLoaded', () => {
+    const menu = document.getElementById('mobile-menu');
+    const backBtn = document.getElementById('menu-back');
+    const label = document.getElementById('menu-label');
+    const panels = document.querySelectorAll('.menu-panel');
 
-  function showPanel(panelId) {
-    panels.forEach(p => p.classList.add('hidden'));
-    panels.forEach(p => p.classList.remove('flex'));
-    const target = document.getElementById(`panel-${panelId}`);
-    target.classList.remove('hidden');
-    target.classList.add('flex');
+    function showPanel(panelId) {
+      panels.forEach(p => p.classList.add('hidden'));
+      panels.forEach(p => p.classList.remove('flex'));
+      const target = document.getElementById(`panel-${panelId}`);
+      target.classList.remove('hidden');
+      target.classList.add('flex');
 
-    if (panelId === 'main') {
-      backBtn.classList.add('hidden');
-      label.classList.remove('hidden');
-    } else {
-      backBtn.classList.remove('hidden');
-      label.classList.add('hidden');
+      if (panelId === 'main') {
+        backBtn.classList.add('hidden');
+        label.classList.remove('hidden');
+      } else {
+        backBtn.classList.remove('hidden');
+        label.classList.add('hidden');
+      }
     }
-  }
 
-  document.getElementById('open-menu').onclick = () => {
-    menu.classList.remove('hidden');
-    menu.classList.add('flex');
-    showPanel('main');
-  };
+    document.getElementById('open-menu').onclick = () => {
+      menu.classList.remove('hidden');
+      menu.classList.add('flex');
+      showPanel('main');
+    };
 
-  document.getElementById('close-menu').onclick = () => {
-    menu.classList.add('hidden');
-    menu.classList.remove('flex');
-  };
+    document.getElementById('close-menu').onclick = () => {
+      menu.classList.add('hidden');
+      menu.classList.remove('flex');
+    };
 
-  document.querySelectorAll('.panel-trigger').forEach(btn => {
-    btn.onclick = () => showPanel(btn.dataset.target);
+    document.querySelectorAll('.panel-trigger').forEach(btn => {
+      btn.onclick = () => showPanel(btn.dataset.target);
+    });
+
+    backBtn.onclick = () => showPanel('main');
   });
-
-  backBtn.onclick = () => showPanel('main');
-});
 </script>
