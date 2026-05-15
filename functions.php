@@ -129,25 +129,25 @@ $context['nav_events'] = Timber::get_posts([
 
 
         // Service Information Section
-        'service' => [
-            'message'             => get_theme_mod('service_message'),
-            'image'               => get_theme_mod('service_image'),
-            'sunday_school'       => get_theme_mod('sunday_school_time'),
-            'sunday_school_desc'  => get_theme_mod('sunday_school_description'),
-            'sunday_morning'      => get_theme_mod('sunday_service_time'),
-            'sunday_morning_desc' => get_theme_mod('sunday_service_description'),
-            'night_enabled'       => get_theme_mod('enable_sunday_night'),
-            'night_time'          => get_theme_mod('sunday_night_time'),
-            'wednesday_enabled'   => get_theme_mod('enable_wednesday_night'),
-            'wednesday_time'      => get_theme_mod('wednesday_night_time'),
-        ],
+        // 'service' => [
+        //     'message'             => get_theme_mod('service_message'),
+        //     'image'               => get_theme_mod('service_image'),
+        //     'sunday_school'       => get_theme_mod('sunday_school_time'),
+        //     'sunday_school_desc'  => get_theme_mod('sunday_school_description'),
+        //     'sunday_morning'      => get_theme_mod('sunday_service_time'),
+        //     'sunday_morning_desc' => get_theme_mod('sunday_service_description'),
+        //     'night_enabled'       => get_theme_mod('enable_sunday_night'),
+        //     'night_time'          => get_theme_mod('sunday_night_time'),
+        //     'wednesday_enabled'   => get_theme_mod('enable_wednesday_night'),
+        //     'wednesday_time'      => get_theme_mod('wednesday_night_time'),
+        // ],
 
         // Pastor Section
-        'pastor' => [
-            'name'  => get_theme_mod('pastor_name'),
-            'bio'   => get_theme_mod('pastor_bio'),
-            'image' => get_theme_mod('pastor_image'),
-        ],
+        // 'pastor' => [
+        //     'name'  => get_theme_mod('pastor_name'),
+        //     'bio'   => get_theme_mod('pastor_bio'),
+        //     'image' => get_theme_mod('pastor_image'),
+        // ],
 
          // Social Media
         'social' => [
@@ -245,19 +245,24 @@ function nw_render_ministry_meta_box($post) {
     ?>
 
     <div class="nw-admin-field">
-        <label>Language Setting</label>
+        <label>English or Spanish?</label>
         <select name="ministry_en_es">
             <option value="EN" <?php selected($values['en_es'], 'EN'); ?>>English</option>
             <option value="ES" <?php selected($values['en_es'], 'ES'); ?>>Spanish</option>
         </select>
     </div>
+     <div class="nw-admin-field">
+        <label>Opposite Language Link</label>
+        <label style="font-weight:normal;">Opposite Language URL</label>
+        <input type="url" name="nw_lang_opposite_url" value="<?php echo esc_url($values['nw_lang_opposite_url']); ?>">
+    </div>
 
     <div class="nw-admin-field">
-        <label>Title Name (Specific display title)</label>
+        <label>Ministry Name</label>
         <input type="text" name="ministry_title_name" value="<?php echo esc_attr($values['title_name']); ?>">
     </div>
 
-    <div class="nw-admin-field"><label>Ministry Caption</label><input type="text" name="ministry_caption" value="<?php echo esc_attr($values['caption']); ?>"></div>
+    <div class="nw-admin-field"><label>Ministry Heading</label><input type="text" name="ministry_caption" value="<?php echo esc_attr($values['caption']); ?>"></div>
     <div class="nw-admin-field"><label>Ministry Leader Name</label><input type="text" name="ministry_leader_name" value="<?php echo esc_attr($values['leader_name']); ?>"></div>
     <div class="nw-admin-field"><label>Ministry Leader Title</label><input type="text" name="ministry_leader_title" value="<?php echo esc_attr($values['leader_title']); ?>"></div>
     <div class="nw-admin-field"><label>Leader Photo URL</label><input type="url" name="ministry_leader_photo" value="<?php echo esc_url($values['leader_photo']); ?>"></div>
@@ -268,12 +273,6 @@ function nw_render_ministry_meta_box($post) {
         <input type="text" name="ministry_cta_text" value="<?php echo esc_attr($values['cta_text']); ?>" placeholder="e.g. Register Now">
         <label style="font-weight:normal; margin-top:10px;">Button URL</label>
         <input type="url" name="ministry_cta_url" value="<?php echo esc_url($values['cta_url']); ?>">
-    </div>
-
-    <div class="nw-admin-field">
-        <label>Language Switcher Links</label>
-        <label style="font-weight:normal;">Opposite Language URL</label>
-        <input type="url" name="nw_lang_opposite_url" value="<?php echo esc_url($values['nw_lang_opposite_url']); ?>">
     </div>
 
     <div class="nw-admin-field"><label>Hero Image URL</label><input type="url" name="ministry_hero_image" value="<?php echo esc_url($values['hero_image']); ?>"></div>
@@ -381,7 +380,7 @@ function nw_home_meta_box_callback($post) {
     
     // Render Language Dropdown
     echo '<div>';
-    echo '<label style="font-weight:bold; display:block; margin-bottom:5px;">Language Setting</label>';
+    echo '<label style="font-weight:bold; display:block; margin-bottom:5px;">English or Spanish?</label>';
     echo '<select name="Language_Setting" style="width:100%">';
     echo '<option value="EN" ' . selected($current_lang, 'EN', false) . '>English</option>';
     echo '<option value="ES" ' . selected($current_lang, 'ES', false) . '>Spanish</option>';
@@ -390,7 +389,7 @@ function nw_home_meta_box_callback($post) {
 
     // Render Opposite URL Input
     echo '<div>';
-    echo '<label style="font-weight:bold; display:block; margin-bottom:5px;">Opposite Language URL</label>';
+    echo '<label style="font-weight:bold; display:block; margin-bottom:5px;">Opposite Language Link</label>';
     echo '<input type="url" name="nw_lang_opposite_url" value="' . esc_url($opposite_url) . '" style="width:100%" />';
     echo '</div>';
 
@@ -485,14 +484,14 @@ function nw_render_event_meta_box($post) {
         <div class="meta-group">
             <h3>Language Settings</h3>
             <div class="nw-admin-field">
-        <label>Language Setting</label>
+        <label>Enlgish or Spanish?</label>
         <select name="nw_event_language">
             <option value="EN" <?php selected($current_lang, 'EN'); ?>>English</option>
             <option value="ES" <?php selected($current_lang, 'ES'); ?>>Spanish</option>
         </select>
     </div>
             <div class="meta-row">
-                <label>Opposite language Page URL</label>
+                <label>Opposite language Page</label>
                 <input type="url" name="_nw_lang_opposite_url" value="<?php echo esc_url(get_post_meta($post->ID, '_nw_lang_opposite_url', true)); ?>">
             </div>
         </div>
@@ -517,7 +516,7 @@ function nw_render_event_meta_box($post) {
             <h3>Logistics</h3>
             <div class="meta-row">
                 <label>Date</label>
-                <input type="date" name="nw_event_date" value="<?php echo esc_attr(get_post_meta($post->ID, 'nw_event_date', true)); ?>">
+                <input type="text" name="nw_event_date" value="<?php echo esc_attr(get_post_meta($post->ID, 'nw_event_date', true)); ?>">
             </div>
             <div class="meta-row">
                 <label>Time</label>
