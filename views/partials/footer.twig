@@ -21,8 +21,27 @@
                 </div>
             </div>
 
-            {# Column 2: Optional Spacing/Links (Empty in original) #}
-            <div></div>
+            {# Column 2: Service Times #}
+            <div class="flex flex-col gap-6">
+                <h3 class="text-xs font-display font-black uppercase tracking-widest text-neutral-900">
+                    {{ lang == 'es' ? 'Horarios de Servicios' : 'Service Times' }}
+                </h3>
+                
+                <div class="text-sm/6 text-neutral-700 flex flex-col gap-2">
+                    <div>
+                        <p class="font-bold text-neutral-900">
+                            {{ lang == 'es' ? 'Escuela Dominical' : 'Sunday School' }}
+                        </p>
+                        <p class="text-neutral-500">10:00 am</p>
+                    </div>
+                    <div>
+                        <p class="font-bold text-neutral-900">
+                            {{ lang == 'es' ? 'Servicio Principal' : 'Main Service' }}
+                        </p>
+                        <p class="text-neutral-500">11:00 am</p>
+                    </div>
+                </div>
+            </div>
 
             {# Column 3: Contact Info & Socials #}
             <div class="flex flex-col gap-6">
