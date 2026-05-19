@@ -1,0 +1,28 @@
+{# 1. Standard SEO Meta Tags #}
+<title>{{ post.meta('seo_title') ?: post.title }}</title>
+{% if post.meta('meta_description') %}
+    <meta name="description" content="{{ post.meta('meta_description')|e('html_attr') }}">
+{% endif %}
+
+{# 2. Canonical URL #}
+<link rel="canonical" href="{{ current_canonical_url }}" />
+
+{# 3. Multilingual Hreflang Tags (Only output if fields are filled out) #}
+{% if post.meta('lang_url_en') %}
+    <link rel="alternate" hreflang="en" href="{{ post.meta('lang_url_en') }}" />
+    {# Assuming English is your default language for fallback #}
+    <link rel="alternate" hreflang="x-default" href="{{ post.meta('lang_url_en') }}" />
+{% endif %}
+
+{% if post.meta('lang_url_es') %}
+    <link rel="alternate" hreflang="es" href="{{ post.meta('lang_url_es') }}" />
+{% endif %}
+
+{# 4. Open Graph Meta Tags for Social Media #}
+<meta property="og:locale" content="{{ og_locale }}" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="{{ post.meta('seo_title') ?: post.title }}" />
+{% if post.meta('meta_description') %}
+    <meta property="og:description" content="{{ post.meta('meta_description')|e('html_attr') }}" />
+{% endif %}
+<meta property="og:url" content="{{ current_canonical_url }}" />

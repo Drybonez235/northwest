@@ -62,6 +62,19 @@ add_filter('timber/context', function( $context ) {
         $context['opposite_url'] = $post->meta('_nw_lang_opposite_url');
     }
     
+    //Code for the SEO header file
+    global $wp;
+    
+    // 1. Get the current absolute URL for the Canonical Tag
+    $context['current_canonical_url'] = home_url(add_query_arg([], $wp->request)) . '/';
+
+    // 2. Automatically detect Open Graph locale based on the URL path
+    $current_path = $_SERVER['REQUEST_URI'];
+    if (str_pos($current_path, '/es/') === 0 || str_contains($current_path, '/es/')) {
+        $context['og_locale'] = 'es_ES';
+    } else {
+        $context['og_locale'] = 'en_US'; // Default to English
+    }
    
 
     // 3. Pull Filtered Ministries
