@@ -45,10 +45,12 @@ add_filter('timber/context', function( $context ) {
         $lang_code = 'es';
         $menu_id = 'header_es';
         $meta_value = 'ES'; // Matches the 'Language Setting' meta box value
+        $context['og_locale'] = 'es_ES';
     } else {
         $lang_code = 'en';
         $menu_id = 'header_en';
         $meta_value = 'EN';
+        $context['og_locale'] = 'en_US'; // Default to English
     }
 
     // 2. Set Context Variables
@@ -64,18 +66,8 @@ add_filter('timber/context', function( $context ) {
     
     //Code for the SEO header file
     global $wp;
-    
     // 1. Get the current absolute URL for the Canonical Tag
     $context['current_canonical_url'] = home_url(add_query_arg([], $wp->request)) . '/';
-
-    // 2. Automatically detect Open Graph locale based on the URL path
-    $current_path = $_SERVER['REQUEST_URI'];
-    if (str_pos($current_path, '/es/') === 0 || str_contains($current_path, '/es/')) {
-        $context['og_locale'] = 'es_ES';
-    } else {
-        $context['og_locale'] = 'en_US'; // Default to English
-    }
-   
 
     // 3. Pull Filtered Ministries
     // This pulls only ministries assigned to the detected language
