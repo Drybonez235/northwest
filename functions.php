@@ -579,3 +579,6 @@ register_nav_menus([
     'header_en' => 'English Header Slot',
     'header_es' => 'Spanish Header Slot',
 ]);
+
+//This removes the WP generage canonical tag
+remove_action('wp_head', 'rel_canonical');
